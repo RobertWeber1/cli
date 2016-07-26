@@ -1,0 +1,7 @@
+#include <string>
+
+const std::string PROJECT_NAME="@PROJECT_NAME@";
+const std::string SHORT_NAME="@SHORT_NAME@";
+const unsigned int VERSION_MAJOR=@VERSION_MAJOR@;
+const unsigned int VERSION_MINOR=@VERSION_MINOR@;
+const unsigned int VERSION_PATCH=@VERSION_PATCH@;
