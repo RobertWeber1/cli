@@ -15,9 +15,14 @@ configure_file (
 
 # add the binary tree to the search path for include files
 # so that we will find TutorialConfig.h
-include_directories("${PROJECT_BINARY_DIR}")
+include_directories(
+    "${PROJECT_BINARY_DIR}"
+    "./include/"
+)
+
 
 
 add_executable( ${SHORT_NAME}.V${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}
+    src/commands.cc
     tests/test.cc
 )
