@@ -4,20 +4,21 @@
 #include "cliwindow.h"
 #include <iostream>
 #include <iomanip>
+#include <unistd.h>
 
-void printBorder(const LayoutObject &l, unsigned int lineCount)
-{
-	for(unsigned int i = 0; i < lineCount; i++)
-	{
-		std::stringstream tmp;
-		l.toStream(tmp, i);
-		if(tmp.str().size() != 0)
-		{
-			std::cout << std::setw(4) << i << ": " << tmp.str() << std::endl;
-		}
+// void printBorder(const LayoutObject &l, unsigned int lineCount)
+// {
+// 	for(unsigned int i = 0; i < lineCount; i++)
+// 	{
+// 		std::stringstream tmp;
+// 		l.toStream(tmp, i);
+// 		if(tmp.str().size() != 0)
+// 		{
+// 			std::cout << std::setw(4) << i << ": " << tmp.str() << std::endl;
+// 		}
 
-	}
-}
+// 	}
+// }
 
 std::string rulerString(unsigned int width)
 {
@@ -35,12 +36,12 @@ void fillWindow(CLIWindow & w, char filler)
 {
 	
 
-	for(unsigned int i = 0; i < w.getHeight(); i++)
+	for(unsigned int i = 0; i < w.LineHeight()+1; i++)
 	{
 		std::stringstream number;
 		number << i;
 		std::stringstream fillStr;
-		for(unsigned int j=0; j<w.getWidth()-number.str().size(); j++)
+		for(unsigned int j=0; j<w.LineWidth()-number.str().size(); j++)
 		{
 			fillStr << filler;
 		}
@@ -83,7 +84,7 @@ int main(int args, char *argv[])
 	CLIWindow w4(LayoutObject::SizeHint(3,10,1, 3,30,2));
 	CLIWindow w5(LayoutObject::SizeHint(3,10,1, 3,30,2));
 	CLIWindow w6(LayoutObject::SizeHint(3,10,1, 3,30,2));
-	CLIWindow w7(LayoutObject::SizeHint(1,winWidth,1, 2,2,1));
+	CLIWindow w7(LayoutObject::SizeHint(3,winWidth,1, 3,3,1));
 
 	vertical2.addObject(&w3);
 	vertical2.addObject(&w4);
@@ -100,7 +101,7 @@ int main(int args, char *argv[])
 	
 	
 
-	vertical1.setSize(winWidth, winHeight, border);
+	vertical1.setSize(1, 1, winWidth, winHeight);
 
 	fillWindow(w1, 'a');
 	fillWindow(w2, 'b');
@@ -110,9 +111,37 @@ int main(int args, char *argv[])
 	fillWindow(w6, 'f');
 	fillWindow(w7, 'g');
 	
-	printBorder(vertical1, winHeight+5);
+	
+	std::cout << "\033[2J";
+	std::cout << "\033[H";
+	vertical1.toStream(std::cout);
 
+	BorderBuffer buffer(winWidth, winHeight+1);
+	vertical1.borderToBuffer(buffer);
+	std::cout << "\033[H";
+	buffer.toStream(std::cout);
 
+	sleep(1);
+
+	vertical1.setSize(1, 1, winWidth+5, winHeight+5);
+	std::cout << "\033[2J";
+	std::cout << "\033[H";
+	vertical1.toStream(std::cout);
+	buffer.setSize(winWidth+5, winHeight+1+5);
+	vertical1.borderToBuffer(buffer);
+	std::cout << "\033[H";
+	buffer.toStream(std::cout);
+
+	sleep(1);
+
+	vertical1.setSize(1, 1, winWidth+5, winHeight-5);
+	std::cout << "\033[2J";
+	std::cout << "\033[H";
+	vertical1.toStream(std::cout);
+	buffer.setSize(winWidth+5, winHeight+1-5);
+	vertical1.borderToBuffer(buffer);
+	std::cout << "\033[H";
+	buffer.toStream(std::cout);
 
 	return result;
 }

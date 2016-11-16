@@ -3,7 +3,7 @@
 
 
 HLayout::HLayout(const LayoutObject::SizeHint & sizeHint, bool drawBorder) :
-	LayoutObject(drawBorder, sizeHint),
+	LayoutObject(drawBorder, sizeHint, H_LAYOUT),
 	Layout()
 {}
 
@@ -12,9 +12,10 @@ HLayout::~HLayout()
 {}
 
 
-void HLayout::setSize(unsigned int width, 
-                      unsigned int height, 
-                      const Border & border)
+void HLayout::setSize(unsigned int columnOffset,
+                      unsigned int lineOffset, 
+                      unsigned int width, 
+                      unsigned int height)
 {
 	this->width = width;
 	this->height = height;
@@ -22,6 +23,13 @@ void HLayout::setSize(unsigned int width,
 	
 	if(objects.size() > 0)
 	{
+		//when borders collapse, more space is available
+		if(objects.size() > 1)
+		{
+			width += objects.size() -1;
+		}
+
+
 		LayoutObject::SizeHint currentHint = calcSizeHint();
 
 		//calc new LayoutObject width
@@ -57,43 +65,43 @@ void HLayout::setSize(unsigned int width,
 			usedWidth += globalGrow;
 			if(globalGrow == 0)
 			{
-				//TODO:grow last object
-
+				//give unused spase to last object
 				newWidths[newWidths.size()-1].minVal += usedWidth;
 				break;
 			}
 		}
 
-		std::cout << "max width: " <<  width << ", max height: " << height << std::endl;
+		//std::cout << "max width: " <<  width << ", max height: " << height << std::endl;
 		//assign new width
 		for(unsigned int i=0; i<newWidths.size(); i++)
 		{
-			std::cout << "new width: " <<  newWidths[i].minVal << ", new height: " << height << std::endl;
-			if(i==0)
-			{
-				objects[i]->setSize(newWidths[i].minVal, height, border);
-			}
-			else
-			{
-				objects[i]->setSize(newWidths[i].minVal, height, Border(0, 
-				                                                        border.top, 
-				                                                        border.topRight, 
-				                                                        0, 
-				                                                        border.right, 
-				                                                        0, 
-				                                                        border.bottom, 
-				                                                        border.bottomRight));
-			}
+			//std::cout << "new width: " <<  newWidths[i].minVal << ", new height: " << height << std::endl;
+			// if(i==0)
+			// {
+			// 	objects[i]->setSize(newWidths[i].minVal, height);
+			// }
+			// else
+			// {
+				objects[i]->setSize(columnOffset,
+					                lineOffset, 
+					                newWidths[i].minVal, 
+					                height);
+				columnOffset += newWidths[i].minVal - 1;
+			//}
 		}
 	}
 }
 
 
-void HLayout::toStream(std::ostream & os,
-                       unsigned int lineIndex) const
+void HLayout::toStream(std::ostream & os) const
 {
-	if(lineIndex < height)
+	for(std::vector<LayoutObject*>::const_iterator it = objects.begin(); 
+	    it != objects.end(); it++)
 	{
+		(*it)->toStream(os);
+	}
+	//if(lineIndex < height)
+	//{
 		// if(objects.size() == 0)
 		// {
 		// 	if(lineIndex == 0)
@@ -137,13 +145,13 @@ void HLayout::toStream(std::ostream & os,
 		// }
 		// else
 		// {
-			for(std::vector<LayoutObject*>::const_iterator it = objects.begin(); 
-			    it != objects.end(); it++)
-			{
+			//for(std::vector<LayoutObject*>::const_iterator it = objects.begin(); 
+			//    it != objects.end(); it++)
+			//{
 				//std::vector<LayoutObject*>::const_iterator itt = it+1;
 				//if(objects.size() == 1)
 				//{
-					(*it)->toStream(os, lineIndex);//, border);
+				//	(*it)->toStream(os, lineIndex, border);
 				// }
 				// else
 				// {
@@ -163,9 +171,9 @@ void HLayout::toStream(std::ostream & os,
 				//                                       // 0));
 				// 	}
 				// }
-			}
+			//}
 		// }
-	}
+	//}
 }
 
 
@@ -190,7 +198,11 @@ LayoutObject::SizeHint HLayout::calcSizeHint()
 	return result;
 }
 
-void HLayout::borderToBuffer(BorderBuffer& buffer, unsigned int lineOffset, unsigned int columnOffset)
+void HLayout::borderToBuffer(BorderBuffer& buffer)
 {
-
+	for(std::vector<LayoutObject*>::const_iterator it = objects.begin(); 
+	    it != objects.end(); it++)
+	{
+		(*it)->borderToBuffer(buffer);
+	}
 }

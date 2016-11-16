@@ -3,7 +3,7 @@
 
 
 VLayout::VLayout(const LayoutObject::SizeHint & sizeHint, bool drawBorders) :
-	LayoutObject(drawBorders, sizeHint),
+	LayoutObject(drawBorders, sizeHint, V_LAYOUT),
 	Layout()
 {}
 
@@ -12,15 +12,22 @@ VLayout::~VLayout()
 {}
 
 
-void VLayout::setSize(unsigned int width, 
-                      unsigned int height,
-                      const Border & border)
+void VLayout::setSize(unsigned int columnOffset,
+                      unsigned int lineOffset, 
+                      unsigned int width, 
+                      unsigned int height)
 {
 	this->width  = width;
 	this->height = height;
-	//this->border = border;
+
 	if(objects.size() > 0)
 	{
+		//when borders collapse, more space is available
+		if(objects.size() > 1)
+		{
+			height += objects.size() -1;
+		}
+
 		LayoutObject::SizeHint currentHint = calcSizeHint();
 
 		//calc new LayoutObject height
@@ -65,31 +72,31 @@ void VLayout::setSize(unsigned int width,
 		//assign new height
 		for(unsigned int i=0; i<newHeights.size(); i++)
 		{
-			if(i==0)
-			{
-				objects[i]->setSize(width, newHeights[i].minVal, border);
-			}
-			else
-			{
-				objects[i]->setSize(width, newHeights[i].minVal, Border(0, 
-						                                                0, 
-						                                                0, 
-						                                                border.left, 
-						                                                border.right, 
-						                                                border.bottomLeft, 
-						                                                border.bottom, 
-						                                                border.bottomRight));
-			}
+			//if(i==0)
+			//{
+				objects[i]->setSize(columnOffset, lineOffset, width, newHeights[i].minVal);
+				lineOffset += newHeights[i].minVal - 1;
+			//}
+			//else
+			//{
+			//	objects[i]->setSize(width, newHeights[i].minVal, Border(0, 
+			//			                                                0, 
+			//			                                                0, 
+			//			                                                border.left, 
+			//			                                                border.right, 
+			//			                                                border.bottomLeft, 
+			//			                                                border.bottom, 
+			//			                                                border.bottomRight));
+			//}
 		}
 	}
 }
 
 
-void VLayout::toStream(std::ostream & os, 
-                       unsigned int lineIndex) const
+void VLayout::toStream(std::ostream & os) const
 {
-	if(lineIndex < height)
-	{
+	//if(lineIndex < height)
+	//{
 		// if(objects.size() == 0)
 		// {
 		// 	if(lineIndex == 0)
@@ -142,20 +149,20 @@ void VLayout::toStream(std::ostream & os,
 		// }
 		// else
 		// {
-			unsigned int offset = 0;
-			unsigned int line   = lineIndex;
+			//unsigned int offset = 0;
+			//unsigned int line   = lineIndex;
 
 			for(std::vector<LayoutObject*>::const_iterator it = objects.begin(); 
 			    it != objects.end(); it++)
 			{
-				line -= offset;
+				//line -= offset;
 
-				if( line < (*it)->getHeight() )
-				{
+				//if( line < (*it)->getHeight() )
+				//{
 					// std::vector<LayoutObject*>::const_iterator itt = it+1;
 					// if(itt == objects.end())
 					// {
-						(*it)->toStream(os, line);//, border);
+						(*it)->toStream(os);//, line, border);
 					// }
 					// else
 					// {
@@ -166,15 +173,15 @@ void VLayout::toStream(std::ostream & os,
 					// 	                          //       border.right, 
 					// 	                          //       0, 0, 0));
 					// }
-					break;
-				}
-				else
-				{
-					offset = (*it)->getHeight();
-				}
+					//break;
+				//}
+				//else
+				//{
+				//	offset = (*it)->getHeight();
+				//}
 			}
 		// }
-	}
+	//}
 }
 
 
@@ -199,7 +206,12 @@ LayoutObject::SizeHint VLayout::calcSizeHint()
 	return result;
 }
 
-void VLayout::borderToBuffer(BorderBuffer& buffer, unsigned int lineOffset, unsigned int columnOffset)
+
+void VLayout::borderToBuffer(BorderBuffer& buffer)
 {
-	
+	for(std::vector<LayoutObject*>::const_iterator it = objects.begin(); 
+	    it != objects.end(); it++)
+	{
+		(*it)->borderToBuffer(buffer);
+	}
 }

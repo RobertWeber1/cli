@@ -11,9 +11,12 @@ public:
 	virtual ~VLayout();
 
 	//implementation virtual methods from LayoutObject
-	void setSize(unsigned int width, unsigned int height, const Border & border = Border());
-	void toStream(std::ostream & os, unsigned int lineIndex) const;
-	void borderToBuffer(BorderBuffer& buffer, unsigned int lineOffset, unsigned int columnOffset);
+	void setSize(unsigned int columnOffset,
+                 unsigned int lineOffset, 
+                 unsigned int width, 
+                 unsigned int height);
+	void toStream(std::ostream & os) const;
+	void borderToBuffer(BorderBuffer& buffer);
 	
 private:
 	//implementation virtual methods from LayoutObject

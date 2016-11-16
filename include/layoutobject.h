@@ -6,6 +6,14 @@
 class LayoutObject
 {
 public:
+	typedef enum ObjectType
+	{
+		NONE,
+		WINDOW
+		H_LAYOUT,
+		V_LAYOUT
+	}ObjectType;
+
 	static const unsigned int MIN_SIZE;
 	static const unsigned int MAX_SIZE;
 	static const unsigned int DEFAULT_FACTOR;
@@ -64,20 +72,24 @@ protected:
 
 	virtual SizeHint calcSizeHint() = 0;
 public:
+	const ObjectType type;
 
 	unsigned int getWidth();
 	unsigned int getHeight();
 	//virtual SizeHint& getSizeHint();
 
-	LayoutObject(bool drawBorders, const SizeHint & sizeHint) :
-		drawBorders(drawBorders), defaultSizeHint(sizeHint), width(3), height(3) {}
+	LayoutObject(bool drawBorders, const SizeHint & sizeHint, ObjectType type) :
+		drawBorders(drawBorders), defaultSizeHint(sizeHint), width(3), height(3), type(type) {}
 
 	virtual ~LayoutObject() {}
 
 	virtual const SizeHint& getSizeHint();
-	virtual void setSize(unsigned int width, unsigned int height, const Border & border = Border()) = 0;
-	virtual void toStream(std::ostream& os, unsigned int lineIndex) const = 0;
-	virtual void borderToBuffer(BorderBuffer& buffer, unsigned int lineOffset, unsigned int columnOffset) = 0;
+	virtual void setSize(unsigned int columnOffset,
+	                     unsigned int lineOffset, 
+	                     unsigned int width, 
+	                     unsigned int height) = 0;
+	virtual void toStream(std::ostream& os) const = 0;
+	virtual void borderToBuffer(BorderBuffer& buffer) = 0;
 };
 
 

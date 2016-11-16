@@ -5,7 +5,7 @@
 #include <iomanip>
 
 CLIWindow::CLIWindow(const SizeHint & sizeHint, unsigned int maxLineCount):
-	LayoutObject(true, sizeHint),
+	LayoutObject(true, sizeHint, WINDOW),
 	maxLineCount(maxLineCount),
 	topIndex(0),
 	stickyBottom(true)
@@ -159,10 +159,6 @@ unsigned int CLIWindow::generateLookup(Line* line,
 	unsigned int offset = 0;
 	unsigned int lookupCount = ceil((float)line->text.size()/(float)width);
 
-	std::cout << "DEBUG text: "<< line->text.size() 
-	          << ", width: " << width 
-	          << ", lookupCount: " << lookupCount << std::endl;
-
 	if(lookupCount == 0)
 	{
 		result.push_back(new ScreenLookupInfo(line, 0, 0));
@@ -229,21 +225,27 @@ void CLIWindow::scrollUp(unsigned int count)
 	{
 		topIndex = 0;
 	}
+
+	std::cout << "scrollUp topIndex: " << topIndex << std::endl;
 }
 
 
 void CLIWindow::scrollDown(unsigned int count)
 {
-	if(screenLookupInfos.size() >= (topIndex + height + count))
+	std::cout << "before scrollDown topIndex: " << topIndex << std::endl;
+	if(screenLookupInfos.size() >= (topIndex + lineHeight + count))
 	{
 		topIndex += count;
 	}
 	else
 	{
-
-		topIndex = screenLookupInfos.size() - height;
+		if(screenLookupInfos.size() > lineHeight)
+		{
+			topIndex = screenLookupInfos.size() - lineHeight;
+		}
 		stickyBottom = true;
 	}
+	std::cout << "after scrollDown topIndex: " << topIndex << std::endl;
 }
 
 
@@ -256,11 +258,12 @@ void CLIWindow::scrollToTop()
 
 void CLIWindow::scrollToBottom()
 {
-	if(screenLookupInfos.size() > height)
+	if(screenLookupInfos.size() > lineHeight)
 	{
-		topIndex = screenLookupInfos.size() - height;
+		topIndex = screenLookupInfos.size() - lineHeight;
 		stickyBottom = true;
 	}
+	std::cout << "scrollToBottom topIndex: " << topIndex << std::endl;
 }
 
 
@@ -273,6 +276,17 @@ unsigned int CLIWindow::Height() const
 unsigned int CLIWindow::Width() const
 {
 	return width;
+}
+
+
+unsigned int CLIWindow::LineHeight() const
+{
+	return lineHeight;
+}
+
+unsigned int CLIWindow::LineWidth() const
+{
+	return lineWidth;
 }
 
 
@@ -301,11 +315,6 @@ void CLIWindow::printLookup()
 }
 
 
-// const LayoutObject::Size& CLIWindow::getSizeConstraint()
-// {
-// 	return sizeHint;
-// }
-
 const LayoutObject::SizeHint& CLIWindow::getSizeHint()
 {
 	return defaultSizeHint;
@@ -317,57 +326,14 @@ LayoutObject::SizeHint CLIWindow::calcSizeHint()
 }
 
 
-void CLIWindow::printLine(std::ostream & os, unsigned int index, const Border & border) const
+void CLIWindow::toStream(std::ostream& os) const
 {
-	unsigned int relIndex = index + topIndex;
-	if(relIndex < screenLookupInfos.size())
+	unsigned int currentColumn = columnOffset + 1;
+	unsigned int currentLine   = lineOffset + 1;
+
+	for(int lineIndex=0; lineIndex<lineHeight; lineIndex++)
 	{
-		if(border.left != 0)
-		{
-			os << border.left; 
-		}
-
-
-		const char* start = screenLookupInfos[relIndex]->line->text.c_str() + screenLookupInfos[relIndex]->offset;
-		os.write(start, screenLookupInfos[relIndex]->width);
-
-		unsigned int space = lineWidth - screenLookupInfos[relIndex]->width;
-		if(space > 0)
-		{
-			os << "\033[" << space << "C";
-		}
-
-		if(border.right != 0)
-		{
-			os << border.right; 
-		}
-		
-	}
-	else
-	{
-		unsigned int curWidth = lineWidth;
-
-		if(border.left != 0)
-		{
-			os << border.left;
-		}
-
-		os << std::setw(lineWidth) << std::setfill(' ') << " ";
-		//os << "\033[" << curWidth << "C";
-
-		if(border.right != 0)
-		{
-			os << border.right; 
-		}
-		
-	}
-}
-
-
-void CLIWindow::toStream(std::ostream& os, unsigned int lineIndex) const
-{
-	if(lineIndex < height)
-	{
+		os << "\033[" << currentLine << ";" << currentColumn << "H";
 		unsigned int relIndex = lineIndex + topIndex;
 		if(relIndex < screenLookupInfos.size())
 		{
@@ -377,103 +343,67 @@ void CLIWindow::toStream(std::ostream& os, unsigned int lineIndex) const
 			unsigned int space = width - screenLookupInfos[relIndex]->width;
 			if(space > 0)
 			{
-				os << "\033[" << space << "C";
+				os << std::setw(space) << std::setfill(' ') << " ";
 			}
 		}
-
-		// if(lineIndex == 0)
-		// {
-		// 	if(border.top != 0)
-		// 	{
-		// 		if(border.topLeft)
-		// 		{
-		// 			os << border.topLeft;
-		// 		}
-		// 		if(border.top)
-		// 		{
-		// 			os << std::setw(lineWidth) 
-		// 			   << std::setfill(border.top) << border.top;
-		// 		}
-		// 		if(border.topRight)
-		// 		{
-		// 			os << border.topRight;
-		// 		}
-		// 	}
-		// 	else
-		// 	{
-		// 		printLine(os, lineIndex, border);
-		// 	}
-		// }
-		// else if(lineIndex == height-1)
-		// {
-		// 	if( border.bottom != 0)
-		// 	{
-		// 		if(border.bottomLeft)
-		// 		{
-		// 			os << border.bottomLeft;
-		// 		}
-		// 		if(border.bottom)
-		// 		{
-		// 			os << std::setw(lineWidth) 
-		// 			   << std::setfill(border.bottom) << border.bottom;
-		// 		}
-		// 		if(border.bottomRight)
-		// 		{
-		// 			os << border.bottomRight;
-		// 		}
-		// 	}
-		// 	else
-		// 	{
-		// 		printLine(os, lineIndex, border);
-		// 	}
-		// }
-		// else
-		// {
-		// 	printLine(os, lineIndex, border);
-		// }
+		else
+		{
+			os << std::setw(lineWidth) << std::setfill(' ') << " ";
+		}
+		currentLine++;
 	}
 }
 
 
-void CLIWindow::setSize(unsigned int width, unsigned int height, const Border & border)
+void CLIWindow::setSize(unsigned int columnOffset,
+	                    unsigned int lineOffset, 
+	                    unsigned int width, 
+	                    unsigned int height)
 {
-	this->height = height;
+	this->columnOffset = columnOffset;
+	this->lineOffset = lineOffset;
 	this->width  = width;
-	this->border = border;
+	this->height = height;
 	
-	lineHeight   = height - ((border.top!=0)?1:0)  - ((border.bottom!=0)?1:0);
+	lineHeight   = height - 2;
 
-	unsigned int newLineWidth = width - ((border.left!=0)?1:0)  - ((border.right!=0)?1:0);
+	unsigned int newLineWidth = width - 2;
 	if(lineWidth != newLineWidth)
 	{
 		if(screenLookupInfos.size() != 0)
 		{
+			std::cout << "test1 topIndex: " << topIndex << std::endl;
 			Line* topLinePointer = screenLookupInfos[topIndex]->line;
-
 			clearLookupInfo();
 			for(std::deque<Line*>::iterator it = lines.begin(); it != lines.end(); it++)
 			{
 				generateLookup(*it, screenLookupInfos, newLineWidth, screenLookupInfos.end());
 			}
 
+			std::cout << "test2" << std::endl;
 			topIndex = 0;
-			while(screenLookupInfos[topIndex]->line != topLinePointer && (topIndex + height)<screenLookupInfos.size())
+			if(not screenLookupInfos.empty())
 			{
-				scrollDown(1);
+				while(screenLookupInfos[topIndex]->line != topLinePointer && (topIndex + height)<screenLookupInfos.size())
+				{
+					scrollDown(1);
+				}
 			}
+			std::cout << "test3" << std::endl;
 		}
 
 		lineWidth = newLineWidth;
 	}
 
-	std::cout << "CLIWindow::setSize() width: " << this->width 
-	          << "(" << lineWidth << "), height: " << this->height 
-	          << "(" << lineHeight << ")" << std::endl;
+	//std::cout << "CLIWindow::setSize() " 
+	//          << "x: " << std::setw(3) << columnOffset << ", Y: " << std::setw(3) << lineOffset
+	//          << ", width: " << std::setw(3) << this->width << "(" << std::setw(3) << lineWidth 
+	//          << "), height: " << std::setw(3) << this->height << "(" << std::setw(3) << lineHeight << ")" << std::endl;
 
 }
 
 
-void CLIWindow::borderToBuffer(BorderBuffer& buffer, unsigned int lineOffset, unsigned int columnOffset)
+void CLIWindow::borderToBuffer(BorderBuffer& buffer)
 {
-	
+	buffer.setBorder(columnOffset-1, lineOffset-1, width, height);
 }

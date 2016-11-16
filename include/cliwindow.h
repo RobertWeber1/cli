@@ -25,16 +25,13 @@ private:
 	std::deque<Line*> lines;
 	std::deque<ScreenLookupInfo*> screenLookupInfos;
 	unsigned int lineWidth, lineHeight;
-
+	unsigned int lineOffset, columnOffset;
+	
 	void clearLines();
 	void clearLookupInfo();
 
 	void trimFront();
 	void trimBack();
-
-	void printLine(std::ostream & os, 
-		           unsigned int index, 
-		           const Border & border = Border()) const;
 
 public:
 	CLIWindow(const SizeHint & sizeHint = SizeHint(), unsigned int maxLineCount=100);
@@ -70,6 +67,8 @@ public:
 
 	unsigned int Height() const;
 	unsigned int Width() const;
+	unsigned int LineHeight() const;
+	unsigned int LineWidth() const;
 
 	void printLines();
 	void printLookup();
@@ -77,9 +76,10 @@ public:
 
 	SizeHint calcSizeHint();
 	const SizeHint& getSizeHint();
-	void setSize(unsigned int width, 
-	             unsigned int height, 
-	             const Border & border = Border());
-	void toStream(std::ostream& os, unsigned int lineIndex) const;
-	void borderToBuffer(BorderBuffer& buffer, unsigned int lineOffset, unsigned int columnOffset);
+	void setSize(unsigned int columnOffset,
+	             unsigned int lineOffset, 
+	             unsigned int width, 
+	             unsigned int height);
+	void toStream(std::ostream& os) const;
+	void borderToBuffer(BorderBuffer& buffer);
 };

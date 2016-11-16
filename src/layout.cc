@@ -6,9 +6,23 @@ Layout::~Layout()
 }
 
 
-void Layout::addObject(LayoutObject * object)
+void Layout::addObject(LayoutObject * object, InsertPosition pos)
 {
-	objects.push_back(object);
+	switch(pos)
+	{
+	case FRONT:
+		objects.insert(objects.begin(), object);
+		break;
+
+	case CENTER:
+		objects.insert(objects.begin()+objects.size()/2, object);
+		break;
+
+	case BACK:
+	default:
+		objects.push_back(object);
+		break;
+	}
 }
 
 

@@ -60,6 +60,13 @@ add_executable( terminalTest
 	src/border.cc
 )
 
+
+add_executable( inputTest
+	tests/inputTest.cc
+	src/inputmultiplexer.cc
+)
+
+
 enable_testing()
 
 add_test( lineTest lineTest 0)
