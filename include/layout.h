@@ -28,5 +28,4 @@ public:
 
 	virtual void addObject(LayoutObject * object, InsertPosition pos = BACK);
 	virtual void removeObject(LayoutObject * object);
-	//virtual Position getRelativPosition(LayoutObject * object);
 };

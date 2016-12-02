@@ -8,11 +8,13 @@ class LayoutObject
 public:
 	typedef enum ObjectType
 	{
-		NONE,
-		WINDOW
+		NONE = 0,
+		WINDOW,
 		H_LAYOUT,
 		V_LAYOUT
 	}ObjectType;
+
+	static const std::string ObjectTypeName[];
 
 	static const unsigned int MIN_SIZE;
 	static const unsigned int MAX_SIZE;
@@ -28,7 +30,7 @@ public:
 		SizeConstraint(unsigned int minVal = MIN_SIZE,
 		               unsigned int maxVal = MAX_SIZE,
 		               unsigned int factor = DEFAULT_FACTOR);
-
+		
 		void add(const LayoutObject::SizeConstraint & operand);
 
 		void max(const LayoutObject::SizeConstraint & operand);

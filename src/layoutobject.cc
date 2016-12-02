@@ -2,6 +2,13 @@
 #include <algorithm>
 #include <math.h>
 
+const std::string LayoutObject::ObjectTypeName[] = {
+	"NONE",
+	"WINDOW",
+	"H_LAYOUT",
+	"V_LAYOUT"
+};
+
 const unsigned int LayoutObject::MIN_SIZE = 1;
 const unsigned int LayoutObject::MAX_SIZE = 1000;
 const unsigned int LayoutObject::DEFAULT_FACTOR = 1;

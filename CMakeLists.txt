@@ -67,6 +67,24 @@ add_executable( inputTest
 )
 
 
+add_executable( viewTest
+	tests/viewTest.cc
+	src/view.cc
+	src/layoutobject.cc
+	src/layout.cc
+	src/hlayout.cc
+	src/vlayout.cc
+	src/cliwindow.cc
+	src/border.cc
+	src/line.cc
+)
+
+add_executable( dataTest
+	tests/dataTest.cc
+	src/data.cc
+)
+
+
 enable_testing()
 
 add_test( lineTest lineTest 0)

@@ -1,5 +1,6 @@
 #include "layout.h"
-
+#include "hlayout.h"
+#include "vlayout.h"
 
 Layout::~Layout()
 {
@@ -34,6 +35,20 @@ void Layout::removeObject(LayoutObject * object)
 		{
 			objects.erase(it);
 			break;
+		}
+		else
+		{
+			switch((*it)->type)
+			{
+			case LayoutObject::H_LAYOUT:
+				static_cast<HLayout*>(*it)->removeObject(object);
+				break;
+			case LayoutObject::V_LAYOUT:
+				static_cast<VLayout*>(*it)->removeObject(object);
+				break;
+			default:
+				break;
+			}
 		}
 	}
 }

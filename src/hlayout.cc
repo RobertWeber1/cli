@@ -9,7 +9,8 @@ HLayout::HLayout(const LayoutObject::SizeHint & sizeHint, bool drawBorder) :
 
 
 HLayout::~HLayout()
-{}
+{
+}
 
 
 void HLayout::setSize(unsigned int columnOffset,
@@ -71,23 +72,14 @@ void HLayout::setSize(unsigned int columnOffset,
 			}
 		}
 
-		//std::cout << "max width: " <<  width << ", max height: " << height << std::endl;
 		//assign new width
 		for(unsigned int i=0; i<newWidths.size(); i++)
 		{
-			//std::cout << "new width: " <<  newWidths[i].minVal << ", new height: " << height << std::endl;
-			// if(i==0)
-			// {
-			// 	objects[i]->setSize(newWidths[i].minVal, height);
-			// }
-			// else
-			// {
-				objects[i]->setSize(columnOffset,
-					                lineOffset, 
-					                newWidths[i].minVal, 
-					                height);
-				columnOffset += newWidths[i].minVal - 1;
-			//}
+			objects[i]->setSize(columnOffset,
+				                lineOffset, 
+				                newWidths[i].minVal, 
+				                height);
+			columnOffset += newWidths[i].minVal - 1;
 		}
 	}
 }
@@ -100,80 +92,6 @@ void HLayout::toStream(std::ostream & os) const
 	{
 		(*it)->toStream(os);
 	}
-	//if(lineIndex < height)
-	//{
-		// if(objects.size() == 0)
-		// {
-		// 	if(lineIndex == 0)
-		// 	{
-		// 		os << border.topLeft << std::setw(width - 2) 
-		// 		   << std::setfill(border.top) << border.top << border.topRight;
-		// 	}
-		// 	else if(lineIndex == height-1)
-		// 	{
-		// 		if( border.bottomLeft != 0 || 
-		// 		    border.bottom != 0 || 
-		// 		    border.bottomRight != 0 )
-		// 		{
-		// 			if(border.bottomLeft)
-		// 			{
-		// 				os << border.bottomLeft;
-		// 			}
-		// 			if(border.bottom)
-		// 			{
-		// 				os << std::setw(width - 2) 
-		// 				   << std::setfill(border.bottom) << border.bottom;
-		// 			}
-		// 			if(border.bottomRight)
-		// 			{
-		// 				os << border.bottomRight;
-		// 			}
-		// 		}
-		// 		else
-		// 		{
-		// 			os << border.left << std::setw(width - 2) 
-		// 			   << std::setfill(' ') << " " << border.right;
-		// 		}
-		// 		//os << border.bottomLeft << std::setw(width - 2) 
-		// 		//   << std::setfill(border.bottom) << border.bottom << border.bottomRight;
-		// 	}
-		// 	else
-		// 	{
-		// 		os << border.left << std::setw(width - 2) 
-		// 		   << std::setfill(' ') << " " << border.right;
-		// 	}
-		// }
-		// else
-		// {
-			//for(std::vector<LayoutObject*>::const_iterator it = objects.begin(); 
-			//    it != objects.end(); it++)
-			//{
-				//std::vector<LayoutObject*>::const_iterator itt = it+1;
-				//if(objects.size() == 1)
-				//{
-				//	(*it)->toStream(os, lineIndex, border);
-				// }
-				// else
-				// {
-				// 	if(itt == objects.end())
-				// 	{
-				// 		(*it)->toStream(os, lineIndex, border);
-				// 	}
-				// 	else
-				// 	{
-				// 		(*it)->toStream(os, lineIndex);//, Border(border.topLeft, 
-				//                                       // border.top, 
-				//                                       // 0, 
-				//                                       // border.left, 
-				//                                       // 0, 
-				//                                       // border.bottomLeft, 
-				//                                       // border.bottom, 
-				//                                       // 0));
-				// 	}
-				// }
-			//}
-		// }
-	//}
 }
 
 
