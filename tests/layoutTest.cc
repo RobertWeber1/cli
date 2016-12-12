@@ -34,7 +34,7 @@ std::string rulerString(unsigned int width)
 
 void fillWindow(CLIWindow & w, char filler)
 {
-	
+
 
 	for(unsigned int i = 0; i < w.LineHeight()+1; i++)
 	{
@@ -46,7 +46,7 @@ void fillWindow(CLIWindow & w, char filler)
 			fillStr << filler;
 		}
 
-		w.appendLine(number.str()+fillStr.str());
+		//w.appendLine(number.str()+fillStr.str());
 	}
 }
 
@@ -58,18 +58,18 @@ int main(int args, char *argv[])
 
 
 
-	// +------------------------+      
-	// |1aaaaaaaaaaaaaaaaaaaaaaa|      
-	// |2aaaaaaaaaaaaaaaaaaaaaaa|     
+	// +------------------------+
+	// |1aaaaaaaaaaaaaaaaaaaaaaa|
+	// |2aaaaaaaaaaaaaaaaaaaaaaa|
 	// +--------+-----------+---+
-	// |1bbbbbbb|1cccccccccc|1ff|   
-	// |bbbbb	+-----------+fff|   
-	// |2bbbbbbb|1dddddddddd|fff|   
-	// |3bbbbbbb+-----------+2ff|   
-	// |4bbbbbbb|1eeeeeeeeee|3ff|   
-	// +--------+-----------+---+   
-	// |1ggggggggggggggggggggggg|   
-	// +------------------------+   
+	// |1bbbbbbb|1cccccccccc|1ff|
+	// |bbbbb	+-----------+fff|
+	// |2bbbbbbb|1dddddddddd|fff|
+	// |3bbbbbbb+-----------+2ff|
+	// |4bbbbbbb|1eeeeeeeeee|3ff|
+	// +--------+-----------+---+
+	// |1ggggggggggggggggggggggg|
+	// +------------------------+
     //
 
 	unsigned int winWidth = 80;
@@ -98,8 +98,8 @@ int main(int args, char *argv[])
 	vertical1.addObject(&horizontal1);
 	vertical1.addObject(&w7);
 
-	
-	
+
+
 
 	vertical1.setSize(1, 1, winWidth, winHeight);
 
@@ -110,8 +110,8 @@ int main(int args, char *argv[])
 	fillWindow(w5, 'e');
 	fillWindow(w6, 'f');
 	fillWindow(w7, 'g');
-	
-	
+
+
 	std::cout << "\033[2J";
 	std::cout << "\033[H";
 	vertical1.toStream(std::cout);

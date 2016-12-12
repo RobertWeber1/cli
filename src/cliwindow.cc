@@ -15,7 +15,7 @@ CLIWindow::CLIWindow(const SizeHint & sizeHint, unsigned int maxLineCount):
 CLIWindow::~CLIWindow()
 {
 	clearLookupInfo();
-	clearLines();
+	//clearLines();
 }
 
 
@@ -41,101 +41,101 @@ void CLIWindow::trimBack()
 }
 
 
-void CLIWindow::appendLine(const std::string & text,
-                           Line::Color color,
-                           Line::Attribute attribute,
-                           Line::Alignment alignment)
-{
-	lines.push_back(new Line(text, color, attribute, alignment));
-	unsigned int newLockupCount = generateLookup(lines.back(), screenLookupInfos, width, screenLookupInfos.end());
-	trimFront();
-	if(stickyBottom)
-	{
-		scrollDown(newLockupCount);
-	}
-}
+// void CLIWindow::appendLine(const std::string & text,
+//                            Line::Color color,
+//                            Line::Attribute attribute,
+//                            Line::Alignment alignment)
+// {
+// 	lines.push_back(new Line(text, color, color, attribute, alignment));
+// 	unsigned int newLockupCount = generateLookup(lines.back(), screenLookupInfos, width, screenLookupInfos.end());
+// 	trimFront();
+// 	if(stickyBottom)
+// 	{
+// 		scrollDown(newLockupCount);
+// 	}
+// }
 
 
-void CLIWindow::insertLine(unsigned int index,
-                           const std::string & text,
-                           Line::Color color,
-                           Line::Attribute attribute,
-                           Line::Alignment alignment)
-{
-	Line *newLine = new Line(text, color, attribute, alignment);
-	lines.insert(lines.begin()+index, newLine);
+// void CLIWindow::insertLine(unsigned int index,
+//                            const std::string & text,
+//                            Line::Color color,
+//                            Line::Attribute attribute,
+//                            Line::Alignment alignment)
+// {
+// 	Line *newLine = new Line(text, color, attribute, alignment);
+// 	lines.insert(lines.begin()+index, newLine);
 
-	unsigned int insertIndex = 0;
+// 	unsigned int insertIndex = 0;
 
-	if(index != 0)
-	{
-		bool foundLookupBefore=false;
-		for(std::deque<ScreenLookupInfo*>::iterator it = screenLookupInfos.begin(); it != screenLookupInfos.end(); it++)
-		{
-			if((*it)->line == lines[index - 1])
-			{
-				foundLookupBefore = true;
-			}
-			if(foundLookupBefore && (*it)->line != lines[index - 1])
-			{
-				break;
-			}
-			insertIndex++;
-		}
-	}
+// 	if(index != 0)
+// 	{
+// 		bool foundLookupBefore=false;
+// 		for(std::deque<ScreenLookupInfo*>::iterator it = screenLookupInfos.begin(); it != screenLookupInfos.end(); it++)
+// 		{
+// 			if((*it)->line == lines[index - 1])
+// 			{
+// 				foundLookupBefore = true;
+// 			}
+// 			if(foundLookupBefore && (*it)->line != lines[index - 1])
+// 			{
+// 				break;
+// 			}
+// 			insertIndex++;
+// 		}
+// 	}
 
-	generateLookup(newLine, screenLookupInfos, width, screenLookupInfos.begin()+insertIndex);
+// 	generateLookup(newLine, screenLookupInfos, width, screenLookupInfos.begin()+insertIndex);
 
-	if(index == 0)
-	{
-		trimBack();
-	}
-	else
-	{
-		trimFront();
-	}
-}
-
-
-void CLIWindow::replaceLine(unsigned int index,
-                            const std::string & text,
-                            Line::Color color,
-                            Line::Attribute attribute,
-                            Line::Alignment alignment)
-{
-	removeLine(index);
-	insertLine(index, text, color, attribute, alignment);
-}
+// 	if(index == 0)
+// 	{
+// 		trimBack();
+// 	}
+// 	else
+// 	{
+// 		trimFront();
+// 	}
+// }
 
 
-bool CLIWindow::removeLine(unsigned int index)
-{
-	bool result = false;
-
-	if(index < lines.size())
-	{
-		std::deque<Line*>::iterator it = lines.begin()+index;
-
-		removeLookup(*it, screenLookupInfos);
-
-		delete *it;
-		lines.erase(it);
-
-		result = true;
-	}
-
-	return result;
-}
+// void CLIWindow::replaceLine(unsigned int index,
+//                             const std::string & text,
+//                             Line::Color color,
+//                             Line::Attribute attribute,
+//                             Line::Alignment alignment)
+// {
+// 	removeLine(index);
+// 	insertLine(index, text, color, attribute, alignment);
+// }
 
 
-void CLIWindow::clearLines()
-{
-	for(std::deque<Line*>::iterator it = lines.begin(); it != lines.end(); it++)
-	{
-		delete *it;
-	}
-	lines.clear();
-}
+// bool CLIWindow::removeLine(unsigned int index)
+// {
+// 	bool result = false;
+
+// 	if(index < lines.size())
+// 	{
+// 		std::deque<Line*>::iterator it = lines.begin()+index;
+
+// 		removeLookup(*it, screenLookupInfos);
+
+// 		delete *it;
+// 		lines.erase(it);
+
+// 		result = true;
+// 	}
+
+// 	return result;
+// }
+
+
+// void CLIWindow::clearLines()
+// {
+// 	for(std::deque<Line*>::iterator it = lines.begin(); it != lines.end(); it++)
+// 	{
+// 		delete *it;
+// 	}
+// 	lines.clear();
+// }
 
 
 void CLIWindow::clearLookupInfo()
@@ -306,9 +306,9 @@ void CLIWindow::printLookup()
 	unsigned int count = 0;
 	for(std::deque<ScreenLookupInfo*>::iterator it = screenLookupInfos.begin(); it != screenLookupInfos.end(); it++)
 	{
-		std::cout << "Lookup" << count << "  " 
-		          << "offset: " << (*it)->offset 
-		          << ", width: " << (*it)->width 
+		std::cout << "Lookup" << count << "  "
+		          << "offset: " << (*it)->offset
+		          << ", width: " << (*it)->width
 		          << ", textpart: " << (*it)->line->text.substr((*it)->offset, (*it)->width) << std::endl;
 		count++;
 	}
@@ -356,15 +356,15 @@ void CLIWindow::toStream(std::ostream& os) const
 
 
 void CLIWindow::setSize(unsigned int columnOffset,
-	                    unsigned int lineOffset, 
-	                    unsigned int width, 
+	                    unsigned int lineOffset,
+	                    unsigned int width,
 	                    unsigned int height)
 {
 	this->columnOffset = columnOffset;
 	this->lineOffset = lineOffset;
 	this->width  = width;
 	this->height = height;
-	
+
 	lineHeight   = height - 2;
 
 	unsigned int newLineWidth = width - 2;
@@ -395,9 +395,9 @@ void CLIWindow::setSize(unsigned int columnOffset,
 		lineWidth = newLineWidth;
 	}
 
-	//std::cout << "CLIWindow::setSize() " 
+	//std::cout << "CLIWindow::setSize() "
 	//          << "x: " << std::setw(3) << columnOffset << ", Y: " << std::setw(3) << lineOffset
-	//          << ", width: " << std::setw(3) << this->width << "(" << std::setw(3) << lineWidth 
+	//          << ", width: " << std::setw(3) << this->width << "(" << std::setw(3) << lineWidth
 	//          << "), height: " << std::setw(3) << this->height << "(" << std::setw(3) << lineHeight << ")" << std::endl;
 
 }

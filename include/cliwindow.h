@@ -26,7 +26,7 @@ private:
 	std::deque<ScreenLookupInfo*> screenLookupInfos;
 	unsigned int lineWidth, lineHeight;
 	unsigned int lineOffset, columnOffset;
-	
+
 	void clearLines();
 	void clearLookupInfo();
 
@@ -37,21 +37,21 @@ public:
 	CLIWindow(const SizeHint & sizeHint = SizeHint(), unsigned int maxLineCount=100);
 	virtual ~CLIWindow();
 
-	void appendLine(const std::string & text,
-	                Line::Color color = Line::WHITE,
-	                Line::Attribute=Line::NONE,
-	                Line::Alignment=Line::LEFT);
-	void insertLine(unsigned int index,
-	                const std::string & text,
-	                Line::Color color=Line::WHITE,
-	                Line::Attribute attribute=Line::NONE,
-	                Line::Alignment alignment=Line::LEFT);
-	void replaceLine(unsigned int index,
-	                const std::string & text,
-	                Line::Color color=Line::WHITE,
-	                Line::Attribute attribute=Line::NONE,
-	                Line::Alignment alignment=Line::LEFT);
-	bool removeLine(unsigned int index);
+	// void appendLine(const std::string & text,
+	//                 Line::Color color = Line::WHITE,
+	//                 Line::Attribute=Line::NONE,
+	//                 Line::Alignment=Line::LEFT);
+	// void insertLine(unsigned int index,
+	//                 const std::string & text,
+	//                 Line::Color color=Line::WHITE,
+	//                 Line::Attribute attribute=Line::NONE,
+	//                 Line::Alignment alignment=Line::LEFT);
+	// void replaceLine(unsigned int index,
+	//                 const std::string & text,
+	//                 Line::Color color=Line::WHITE,
+	//                 Line::Attribute attribute=Line::NONE,
+	//                 Line::Alignment alignment=Line::LEFT);
+	// bool removeLine(unsigned int index);
 
 	unsigned int generateLookup(Line* line,
 	                            std::deque<ScreenLookupInfo*>& dest,
@@ -77,8 +77,8 @@ public:
 	SizeHint calcSizeHint();
 	const SizeHint& getSizeHint();
 	void setSize(unsigned int columnOffset,
-	             unsigned int lineOffset, 
-	             unsigned int width, 
+	             unsigned int lineOffset,
+	             unsigned int width,
 	             unsigned int height);
 	void toStream(std::ostream& os) const;
 	void borderToBuffer(BorderBuffer& buffer);

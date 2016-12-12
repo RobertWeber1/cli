@@ -5,37 +5,57 @@
 
 class Data : public std::stringstream
 {
-private:
+public:
 	typedef enum CommandID{
-		ENABLE_AUTO_UPDATE = 0,
-		DISABLE_AUTO_UPDATE,
+		NONE = 0,
+		AUTO_UPDATE,
+		MANUAL_UPDATE,
+		UPDATE,
 		BOLD,
 		ITALIC,
 		INVERS,
-		RED,
-		GREEN,
-		BULUE,
-		YELLOW,
-		CYAN,
-		MAGENTHA,
+		ALIGNMENT,
+		COLOR,
 		CLEAR_WINDOW,
-		CLEAR_SCREEN
-	}Command;
+		LINE,
+		NORMAL
+	}CommandID;
 
-	std::vector<Line> lines;
-	bool autoUpdate;
-	static const std::map<std::string, int> commandMap;
+	typedef enum Position{
+		FRONT = 0,
+		BACK,
+		LINE_NUMBER
+	}Position;
 
 	static const std::string commandNames[];
+	static const std::string colorNames[];
+	static const std::string alignmentNames[];
+	static const std::string positionNames[];
 
-	static std::map<std::String> initCommandMap;
+private:
+	std::string text;
+	std::vector<Line> lines;
+	bool autoUpdate;
+	bool inSequence;
+	CommandID currentCommand;
+	std::vector<int> args;
+	int currentArg;
+	bool inArg;
 
+	void processCommand(CommandID cmd, std::vector<int> & args);
 public:
 	Data();
 	virtual ~Data();
 
 	void processData();
 	void dbgToStream(std::ostream &);
+
+	static std::string SET_COLOR(Line::Color forground = Line::WHITE, Line::Color background = Line::BLACK);
+	static std::string SET_ALIGNMENT(Line::Alignment type = Line::LEFT);
+	static std::string SET_LINE(Position pos = BACK, unsigned int lineNumber = 0);
+
 };
 
-std::stringstream & operator(std::stringstream & os, Data::CommandID cmdID);
+Data & operator<<(Data & data, Data::CommandID cmdID);
+std::ostream & operator<<(std::ostream & os, Data::CommandID cmdID);
+std::ostream & operator<<(std::ostream & os, Data::Position pos);

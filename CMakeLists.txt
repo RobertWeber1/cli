@@ -85,6 +85,14 @@ add_executable( dataTest
 )
 
 
+add_executable( runUnitTests
+	tests/runUnitTests.cc
+	src/line.cc
+)
+
+
+
+
 enable_testing()
 
 add_test( lineTest lineTest 0)
