@@ -1,5 +1,5 @@
 #include "line.h"
-
+#include "data.h"
 
 #include <iostream>
 
@@ -18,16 +18,13 @@ std::ostream & operator<<(std::ostream & os, const std::pair<unsigned int, unsig
 	{
 		std::cout << "\033[1;31m";
 	}
-
 	std::cout << result.first << " of " << result.second << " successful\033[0m" << std::endl;
 }
+
 
 int main(int argc, char *argv[])
 {
 	std::cout << "Line Unit Test ... " << Line::unitTest() << std::endl;
-
-
-
-
+	std::cout << "Data Unit Test ... " << Data::unitTest() << std::endl;
     return 0;
 }

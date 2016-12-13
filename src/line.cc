@@ -1,28 +1,8 @@
 #include "line.h"
+#include "util.h"
 #include <sstream>
 #include <iostream>
 
-
-
-
-// const std::string Line::NORMAL = "\033[0m";
-// const std::string Line::Colors[]
-// {
-//     "37;40",
-//     "30;47",
-//     "31;40",
-//     "30;41",
-//     "32;40",
-//     "30;42",
-//     "34;40",
-//     "30;44",
-//     "33;40",
-//     "30;43",
-//     "36;40",
-//     "30;46",
-//     "35;40",
-//     "30;45"
-// };
 
 const std::string Line::attributeNames[] = {
     "NONE",
@@ -96,20 +76,6 @@ Line::Line(const std::string & text, Color forground, Color background, Attribut
 void Line::dbgPrint(std::ostream & os) const
 {
     os << "Text: " << text << ", Fg: " << forground << ", Bg: " << background << ", Attr: " << attribute << ", Alignm: " << alignment;
-}
-
-
-void checkEq(const std::string & a, const std::string & b, unsigned int & successful, unsigned int & count)
-{
-    count++;
-    if(a == b)
-    {
-        successful++;
-    }
-    else
-    {
-        std::cout << "TEST[" << count << "] failed: string \"" << a << "\" should be equal to \"" << b << "\"" << std::endl;
-    }
 }
 
 

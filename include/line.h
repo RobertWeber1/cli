@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include <utility>
+#include <utility> //pair
 
 
 class Line
@@ -53,8 +53,6 @@ public:
          Attribute attribute = NONE,
          Alignment alignment = LEFT);
 
-    // void modifier(std::ostream & os) const;
-    // void toStream(std::ostream & os) const;
     void dbgPrint(std::ostream & os) const;
 
     static std::pair<unsigned int, unsigned int> unitTest(bool verbose=true);

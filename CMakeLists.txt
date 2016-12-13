@@ -26,10 +26,6 @@ include_directories(
 #    tests/test.cc
 #)
 
-add_executable( lineTest
-    src/line.cc
-    tests/lineTest.cc
-)
 
 # add_executable( winTest
 # 	src/layoutobject.cc
@@ -46,6 +42,7 @@ add_executable( constraintTest
 
 add_executable( layoutTest
 	src/cliwindow.cc
+	src/util.cc
 	src/line.cc
 	src/layoutobject.cc
 	src/layout.cc
@@ -69,6 +66,7 @@ add_executable( inputTest
 
 add_executable( viewTest
 	tests/viewTest.cc
+	src/util.cc
 	src/view.cc
 	src/layoutobject.cc
 	src/layout.cc
@@ -79,15 +77,12 @@ add_executable( viewTest
 	src/line.cc
 )
 
-add_executable( dataTest
-	tests/dataTest.cc
-	src/data.cc
-)
-
 
 add_executable( runUnitTests
 	tests/runUnitTests.cc
+	src/util.cc
 	src/line.cc
+	src/data.cc
 )
 
 
