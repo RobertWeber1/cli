@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include <streambuf>
 
- 
+
 class BorderChar
 {
 public:
@@ -34,7 +34,7 @@ public:
 	static const char simpleCharSet[16];
 	static const char graphicalCharSet[16];
 
-	
+
 public:
 	//BorderType type;
 	uint8_t inverted;
@@ -50,7 +50,7 @@ public:
 	BorderChar& operator+(const BorderType& borderType);
 	BorderChar& operator-(const BorderType& borderType);
 	BorderChar& operator=(const BorderType& borderType);
-	
+
 	uint8_t toIndex();
 
 	void setInvert(bool value = false);
@@ -73,23 +73,23 @@ public:
 	~BorderBuffer();
 
 	void setSize(unsigned int width, unsigned int height);
-	void setBorder(unsigned int column, 
-	               unsigned int line, 
-	               unsigned int width, 
-	               unsigned int height, 
+	void setBorder(unsigned int column,
+	               unsigned int line,
+	               unsigned int width,
+	               unsigned int height,
 	               bool inverted = false);
-	void setInvertBorder(unsigned int column, 
-	                     unsigned int line, 
-	                     unsigned int width, 
+	void setInvertBorder(unsigned int column,
+	                     unsigned int line,
+	                     unsigned int width,
 	                     unsigned int height);
-	void unsetBorder(unsigned int column, 
-	                 unsigned int line, 
-	                 unsigned int width, 
-	                 unsigned int height, 
+	void unsetBorder(unsigned int column,
+	                 unsigned int line,
+	                 unsigned int width,
+	                 unsigned int height,
 	                 bool inverted = false);
-	void unsetInvertBorder(unsigned int column, 
-	                       unsigned int line, 
-	                       unsigned int width, 
+	void unsetInvertBorder(unsigned int column,
+	                       unsigned int line,
+	                       unsigned int width,
 	                       unsigned int height);
 	void clear();
 	void toStream(std::ostream & os);

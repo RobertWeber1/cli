@@ -15,12 +15,12 @@ const unsigned int LayoutObject::DEFAULT_FACTOR = 1;
 const LayoutObject::SizeHint LayoutObject::DEFAULT_SIZE_HINT(3,
                                                              LayoutObject::MAX_SIZE,
                                                              LayoutObject::DEFAULT_FACTOR,
-                                                             3, 
+                                                             3,
                                                              LayoutObject::MAX_SIZE,
                                                              LayoutObject::DEFAULT_FACTOR);
 
 
-LayoutObject::SizeConstraint::SizeConstraint(unsigned int minVal, 
+LayoutObject::SizeConstraint::SizeConstraint(unsigned int minVal,
                                              unsigned int maxVal,
                                               unsigned int factor):
 	 minVal(minVal), maxVal(maxVal), factor(factor)
@@ -88,7 +88,7 @@ unsigned int LayoutObject::SizeConstraint::grow(unsigned int current,
 
 
 void LayoutObject::SizeConstraint::set(unsigned int newMinVal,
-                                       unsigned int newMaxVal, 
+                                       unsigned int newMaxVal,
                                        unsigned int newFaktor)
 {
 	minVal = newMinVal;
@@ -97,7 +97,7 @@ void LayoutObject::SizeConstraint::set(unsigned int newMinVal,
 }
 
 
-std::ostream & operator<<(std::ostream& os, 
+std::ostream & operator<<(std::ostream& os,
                           const LayoutObject::SizeConstraint& sizeConstraint)
 {
 	sizeConstraint.toStream(os);
@@ -113,10 +113,10 @@ LayoutObject::SizeHint::SizeHint(SizeConstraint width, SizeConstraint height):
 {}
 
 LayoutObject::SizeHint::SizeHint(unsigned int wMin,
-                                 unsigned int wMax, 
+                                 unsigned int wMax,
                                  unsigned int wFactor,
-                                 unsigned int hMin, 
-                                 unsigned int hMax, 
+                                 unsigned int hMin,
+                                 unsigned int hMax,
                                  unsigned int hFactor)
 {
 	width.minVal = wMin;

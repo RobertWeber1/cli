@@ -25,7 +25,7 @@ const char BorderChar::simpleCharSet[16] = {
 };
 
 
-//n o p q r s t u v w x y z { | } 
+//n o p q r s t u v w x y z { | }
 //┼ ⎺ ⎻ ─ ⎼ ⎽ ├ ┤ ┴ ┬ │ ≤ ≥ π ≠ £
 
 const char BorderChar::graphicalCharSet[16] = {
@@ -54,11 +54,11 @@ uint8_t toBit(const BorderChar::BorderType & type, uint8_t bit)
 }
 
 
-BorderChar::BorderChar(BorderType type) : 
-	top(toBit(type,0)), 
-	right(toBit(type,1)), 
-	bottom(toBit(type,2)), 
-	left(toBit(type,3)), 
+BorderChar::BorderChar(BorderType type) :
+	top(toBit(type,0)),
+	right(toBit(type,1)),
+	bottom(toBit(type,2)),
+	left(toBit(type,3)),
 	inverted(toBit(type,4))
 {}
 
@@ -158,7 +158,7 @@ void BorderChar::toStream(std::ostream & os, bool graphical)
 	{
 		os << simpleCharSet[toIndex()];
 	}
-	
+
 }
 
 
@@ -214,7 +214,7 @@ BorderChar::BorderType BorderChar::getType()
 
 //----------------------------------------------------------------------------//
 
-BorderBuffer::BorderBuffer(unsigned int width, unsigned int height) : 
+BorderBuffer::BorderBuffer(unsigned int width, unsigned int height) :
 	width(width) ,height(height), buffer(NULL)
 {
 	setSize(width, height);
@@ -258,7 +258,7 @@ void BorderBuffer::setSize(unsigned int width, unsigned int height)
 	clear();
 }
 
-void BorderBuffer::setBorder(unsigned int column, 
+void BorderBuffer::setBorder(unsigned int column,
                              unsigned int line,
                              unsigned int boxWidth,
                              unsigned int boxHeight,
@@ -326,8 +326,8 @@ void BorderBuffer::setBorder(unsigned int column,
 }
 
 
-void BorderBuffer::setInvertBorder(unsigned int column, 
-                                   unsigned int line, 
+void BorderBuffer::setInvertBorder(unsigned int column,
+                                   unsigned int line,
                                    unsigned int boxWidth,
                                    unsigned int boxHeight)
 {
@@ -391,8 +391,8 @@ void BorderBuffer::setInvertBorder(unsigned int column,
 }
 
 
-void BorderBuffer::unsetBorder(unsigned int column, 
-                               unsigned int line, 
+void BorderBuffer::unsetBorder(unsigned int column,
+                               unsigned int line,
                                unsigned int boxWidth,
                                unsigned int boxHeight,
                                bool inverted)
@@ -458,8 +458,8 @@ void BorderBuffer::unsetBorder(unsigned int column,
 	}
 }
 
-void BorderBuffer::unsetInvertBorder(unsigned int column, 
-                                     unsigned int line, 
+void BorderBuffer::unsetInvertBorder(unsigned int column,
+                                     unsigned int line,
                                      unsigned int boxWidth,
                                      unsigned int boxHeight)
 {

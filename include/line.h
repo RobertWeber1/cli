@@ -2,6 +2,9 @@
 #include <string>
 #include <utility> //pair
 
+namespace CLI
+{
+
 
 class Line
 {
@@ -64,3 +67,5 @@ std::ostream & operator<<(std::ostream & os, const Line * line);
 std::ostream & operator<<(std::ostream & os, Line::Color color);
 std::ostream & operator<<(std::ostream & os, Line::Alignment alignment);
 std::ostream & operator<<(std::ostream & os, Line::Attribute attribute);
+
+}

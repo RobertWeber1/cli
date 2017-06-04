@@ -4,6 +4,9 @@
 #include <list>
 #include "line.h"
 
+namespace CLI
+{
+
 class Data : public std::stringstream
 {
 public:
@@ -62,6 +65,9 @@ public:
 	void processData();
 	void dbgPrint(std::ostream &);
 
+	std::list<Line*>::const_iterator getFirstLinesIter(unsigned int lineNumber) const;
+	std::list<Line*>::const_iterator getEndLineIter() const;
+
 	static const std::string AUTO_UPDATE;
 	static const std::string MANUAL_UPDATE;
 	static const std::string UPDATE;
@@ -79,3 +85,5 @@ public:
 Data & operator<<(Data & data, Data::CommandID cmdID);
 std::ostream & operator<<(std::ostream & os, Data::CommandID cmdID);
 std::ostream & operator<<(std::ostream & os, Data::Position pos);
+
+}

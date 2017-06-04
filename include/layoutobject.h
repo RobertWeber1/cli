@@ -30,7 +30,7 @@ public:
 		SizeConstraint(unsigned int minVal = MIN_SIZE,
 		               unsigned int maxVal = MAX_SIZE,
 		               unsigned int factor = DEFAULT_FACTOR);
-		
+
 		void add(const LayoutObject::SizeConstraint & operand);
 
 		void max(const LayoutObject::SizeConstraint & operand);
@@ -41,12 +41,12 @@ public:
 
 		unsigned int calc(unsigned int x) const;
 
-		unsigned int grow(unsigned int current, 
-		                  unsigned int remaining, 
+		unsigned int grow(unsigned int current,
+		                  unsigned int remaining,
 		                  unsigned int globalFactor);
 
-		void set(unsigned int newMinVal, 
-		         unsigned int newMaxVal, 
+		void set(unsigned int newMinVal,
+		         unsigned int newMaxVal,
 		         unsigned int newFaktor);
 	}SizeConstraint;
 
@@ -63,14 +63,13 @@ public:
 
 	static const SizeHint DEFAULT_SIZE_HINT;
 
-
 protected:
 	unsigned int width;
 	unsigned int height;
 	bool drawBorders;
 	SizeHint defaultSizeHint;
 	SizeHint calculatedSizeHint;
-	
+
 
 	virtual SizeHint calcSizeHint() = 0;
 public:
@@ -87,8 +86,8 @@ public:
 
 	virtual const SizeHint& getSizeHint();
 	virtual void setSize(unsigned int columnOffset,
-	                     unsigned int lineOffset, 
-	                     unsigned int width, 
+	                     unsigned int lineOffset,
+	                     unsigned int width,
 	                     unsigned int height) = 0;
 	virtual void toStream(std::ostream& os) const = 0;
 	virtual void borderToBuffer(BorderBuffer& buffer) = 0;
