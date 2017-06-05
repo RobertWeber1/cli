@@ -4,18 +4,6 @@
 namespace CLI
 {
 
-void checkEq(const std::string & a, const std::string & b, unsigned int & successful, unsigned int & count)
-{
-    count++;
-    if(a == b)
-    {
-        successful++;
-    }
-    else
-    {
-        std::cout << "TEST[" << count << "] failed: string \"" << a << "\" should be equal to \"" << b << "\"" << std::endl;
-    }
-}
 
 std::ostream & operator<<( std::ostream & os, border::Element::Type type )
 {
@@ -76,6 +64,7 @@ std::ostream & operator<<( std::ostream & os, border::Element::Type type )
         return os;
     }
 }
+
 
 std::ostream & operator<<( std::ostream & os, util::Properties::Color color )
 {
@@ -165,6 +154,7 @@ std::string to_string( util::Properties const& prop )
     return result.str();
 }
 
+
 std::string to_string( util::SizeConstraint const& constraint )
 {
     std::stringstream result;
@@ -172,12 +162,14 @@ std::string to_string( util::SizeConstraint const& constraint )
     return result.str();
 }
 
+
 std::string to_string( util::SizeHint const& size_hint )
 {
     std::stringstream result;
     result << "Hwidth: " << to_string(size_hint.width()) << ", Hheight:" << to_string(size_hint.height());
     return result.str();
 }
+
 
 std::string to_string( border::Buffer & buffer )
 {
@@ -216,50 +208,6 @@ std::string to_string( border::Buffer & buffer )
 
     return borders.str();
 }
-
-
-//----------------------------------------------------------------------------//
-
-
-void TestTerminal::clearScreen()
-{}
-
-
-void TestTerminal::setForegroundColor(Line::Color)
-{}
-
-
-void TestTerminal::setBackgroundColor(Line::Color)
-{}
-
-
-void TestTerminal::setAttribute(Line::Attribute)
-{}
-
-
-void TestTerminal::resetAttributes()
-{}
-
-
-void TestTerminal::setCurserPosition(unsigned int line, unsigned int collumn)
-{}
-
-
-void TestTerminal::printString(const Line * line,
-                 size_t start,
-                 size_t len)
-{
-	output << line->text << std::endl;
-}
-
-
-void TestTerminal::printBorder(unsigned int lineNumber,
-                 unsigned int collumnNumber,
-                 unsigned int height,
-                 unsigned int width,
-                 bool inverted)
-{}
-
 
 
 }

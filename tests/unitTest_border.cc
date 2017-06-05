@@ -42,18 +42,18 @@ void element_convertToVisibleChar(std::pair<unsigned int, unsigned int> & result
 	Element tee_top(Element::TEE_TOP);
 	Element cross(Element::CROSS);
 
-	check(std::string(__FUNCTION__)+" none", none.to_char(char_map), ' ', result.first, result.second);
-	check(std::string(__FUNCTION__)+" top_left", top_left.to_char(char_map), '1', result.first, result.second);
-	check(std::string(__FUNCTION__)+" horizontal", horizontal.to_char(char_map), '-', result.first, result.second);
-	check(std::string(__FUNCTION__)+" top_right", top_right.to_char(char_map), '3', result.first, result.second);
-	check(std::string(__FUNCTION__)+" vertical", vertical.to_char(char_map), '|', result.first, result.second);
-	check(std::string(__FUNCTION__)+" bottom_left", bottom_left.to_char(char_map), '7', result.first, result.second);
-	check(std::string(__FUNCTION__)+" bottom_right", bottom_right.to_char(char_map), '5', result.first, result.second);
-	check(std::string(__FUNCTION__)+" tee_left", tee_left.to_char(char_map), '4', result.first, result.second);
-	check(std::string(__FUNCTION__)+" tee_right", tee_right.to_char(char_map), '8', result.first, result.second);
-	check(std::string(__FUNCTION__)+" tee_bottom", tee_bottom.to_char(char_map), '2', result.first, result.second);
-	check(std::string(__FUNCTION__)+" tee_top", tee_top.to_char(char_map), '6', result.first, result.second);
-	check(std::string(__FUNCTION__)+" cross", cross.to_char(char_map), '+', result.first, result.second);
+	check(std::string(__FUNCTION__)+" none", none.to_char(char_map), ' ', result);
+	check(std::string(__FUNCTION__)+" top_left", top_left.to_char(char_map), '1', result);
+	check(std::string(__FUNCTION__)+" horizontal", horizontal.to_char(char_map), '-', result);
+	check(std::string(__FUNCTION__)+" top_right", top_right.to_char(char_map), '3', result);
+	check(std::string(__FUNCTION__)+" vertical", vertical.to_char(char_map), '|', result);
+	check(std::string(__FUNCTION__)+" bottom_left", bottom_left.to_char(char_map), '7', result);
+	check(std::string(__FUNCTION__)+" bottom_right", bottom_right.to_char(char_map), '5', result);
+	check(std::string(__FUNCTION__)+" tee_left", tee_left.to_char(char_map), '4', result);
+	check(std::string(__FUNCTION__)+" tee_right", tee_right.to_char(char_map), '8', result);
+	check(std::string(__FUNCTION__)+" tee_bottom", tee_bottom.to_char(char_map), '2', result);
+	check(std::string(__FUNCTION__)+" tee_top", tee_top.to_char(char_map), '6', result);
+	check(std::string(__FUNCTION__)+" cross", cross.to_char(char_map), '+', result);
 }
 
 
@@ -72,18 +72,18 @@ void invertedelement_convertToVisibleChar(std::pair<unsigned int, unsigned int> 
 	Element inv_tee_top((uint8_t)Element::TEE_TOP|(uint8_t)Element::INVERT);
 	Element inv_cross((uint8_t)Element::CROSS|(uint8_t)Element::INVERT);
 
-	check(std::string(__FUNCTION__)+" inv_none", inv_none.to_char(char_map), ' ', result.first, result.second);
-	check(std::string(__FUNCTION__)+" inv_top_left", inv_top_left.to_char(char_map), '1', result.first, result.second);
-	check(std::string(__FUNCTION__)+" inv_horizontal", inv_horizontal.to_char(char_map), '-', result.first, result.second);
-	check(std::string(__FUNCTION__)+" inv_top_right", inv_top_right.to_char(char_map), '3', result.first, result.second);
-	check(std::string(__FUNCTION__)+" inv_vertical", inv_vertical.to_char(char_map), '|', result.first, result.second);
-	check(std::string(__FUNCTION__)+" inv_bottom_left", inv_bottom_left.to_char(char_map), '7', result.first, result.second);
-	check(std::string(__FUNCTION__)+" inv_bottom_right", inv_bottom_right.to_char(char_map), '5', result.first, result.second);
-	check(std::string(__FUNCTION__)+" inv_tee_left", inv_tee_left.to_char(char_map), '4', result.first, result.second);
-	check(std::string(__FUNCTION__)+" inv_tee_right", inv_tee_right.to_char(char_map), '8', result.first, result.second);
-	check(std::string(__FUNCTION__)+" inv_tee_bottom", inv_tee_bottom.to_char(char_map), '2', result.first, result.second);
-	check(std::string(__FUNCTION__)+" inv_tee_top", inv_tee_top.to_char(char_map), '6', result.first, result.second);
-	check(std::string(__FUNCTION__)+" inv_cross", inv_cross.to_char(char_map), '+', result.first, result.second);
+	check(std::string(__FUNCTION__)+" inv_none", inv_none.to_char(char_map), ' ', result);
+	check(std::string(__FUNCTION__)+" inv_top_left", inv_top_left.to_char(char_map), '1', result);
+	check(std::string(__FUNCTION__)+" inv_horizontal", inv_horizontal.to_char(char_map), '-', result);
+	check(std::string(__FUNCTION__)+" inv_top_right", inv_top_right.to_char(char_map), '3', result);
+	check(std::string(__FUNCTION__)+" inv_vertical", inv_vertical.to_char(char_map), '|', result);
+	check(std::string(__FUNCTION__)+" inv_bottom_left", inv_bottom_left.to_char(char_map), '7', result);
+	check(std::string(__FUNCTION__)+" inv_bottom_right", inv_bottom_right.to_char(char_map), '5', result);
+	check(std::string(__FUNCTION__)+" inv_tee_left", inv_tee_left.to_char(char_map), '4', result);
+	check(std::string(__FUNCTION__)+" inv_tee_right", inv_tee_right.to_char(char_map), '8', result);
+	check(std::string(__FUNCTION__)+" inv_tee_bottom", inv_tee_bottom.to_char(char_map), '2', result);
+	check(std::string(__FUNCTION__)+" inv_tee_top", inv_tee_top.to_char(char_map), '6', result);
+	check(std::string(__FUNCTION__)+" inv_cross", inv_cross.to_char(char_map), '+', result);
 }
 
 
