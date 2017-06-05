@@ -12,12 +12,12 @@ public:
 
 	//implementation virtual methods from LayoutObject
 	void setSize(unsigned int columnOffset,
-                 unsigned int lineOffset, 
-                 unsigned int width, 
+                 unsigned int lineOffset,
+                 unsigned int width,
                  unsigned int height);
 	void toStream(std::ostream & os) const;
 	void borderToBuffer(BorderBuffer& buffer);
-	
+
 private:
 	//implementation virtual methods from LayoutObject
 	SizeHint calcSizeHint();

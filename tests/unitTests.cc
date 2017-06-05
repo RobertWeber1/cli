@@ -1,7 +1,7 @@
 #include "unitTests.h"
-#include "line.h"
-#include "data.h"
-#include "window.h"
+// #include "line.h"
+// #include "data.h"
+// #include "window.h"
 #include <iostream>
 
 int _has_failed_tests = 0;
@@ -27,9 +27,11 @@ std::ostream & operator<<(std::ostream & os, const std::pair<unsigned int, unsig
 
 int main(int argc, char *argv[])
 {
-	std::cout << "Line Unit Test ... " << CLI::Line::unitTest() << std::endl;
-	std::cout << "Data Unit Test ... " << CLI::Data::unitTest() << std::endl;
-	std::cout << "Window Unit Test ... " << CLI::Window::unitTest() << std::endl;
+	// std::cout << "Line Unit Test ... " << CLI::Line::unitTest() << std::endl;
+	// std::cout << "Data Unit Test ... " << CLI::Data::unitTest() << std::endl;
+	// std::cout << "Window Unit Test ... " << CLI::Window::unitTest() << std::endl;
 	std::cout << "Border Unit Test ... " << border_unit_test() << std::endl;
+	std::cout << "Border Unit Test ... " << layout_unit_test() << std::endl;
+
     return _has_failed_tests;
 }

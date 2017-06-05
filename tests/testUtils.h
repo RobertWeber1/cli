@@ -3,6 +3,9 @@
 #include "util/point.h"
 #include "util/size.h"
 #include "util/properties.h"
+#include "util/size_constraint.h"
+#include "util/size_hint.h"
+#include "border/buffer.h"
 #include "border/element.h"
 #include <string>
 #include <sstream>
@@ -73,5 +76,9 @@ std::ostream & operator<<( std::ostream & os, util::Properties::Attribute attr )
 std::string to_string( util::Point const& point );
 std::string to_string( util::Size const& size );
 std::string to_string( util::Properties const& prop );
+std::string to_string( util::SizeConstraint const& constraint );
+std::string to_string( util::SizeHint const& size_hint );
+std::string to_string( border::Buffer & buffer );
+
 
 }

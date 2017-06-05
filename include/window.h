@@ -35,7 +35,7 @@ public:
 	             unsigned int height);
 
 	void toStream(std::ostream& os) const {};
-	void borderToBuffer(BorderBuffer& buffer) {};
+//	void borderToBuffer(BorderBuffer& buffer) {};
 
 	void renderContent(ITerminal * terminal);
 	void renderBorder(ITerminal * terminal);

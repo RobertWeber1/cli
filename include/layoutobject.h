@@ -1,5 +1,5 @@
 #pragma once
-#include "border.h"
+//#include "border.h"
 #include <iostream>
 
 
@@ -90,7 +90,7 @@ public:
 	                     unsigned int width,
 	                     unsigned int height) = 0;
 	virtual void toStream(std::ostream& os) const = 0;
-	virtual void borderToBuffer(BorderBuffer& buffer) = 0;
+	//virtual void borderToBuffer(BorderBuffer& buffer) = 0;
 };
 
 

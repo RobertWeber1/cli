@@ -165,6 +165,58 @@ std::string to_string( util::Properties const& prop )
     return result.str();
 }
 
+std::string to_string( util::SizeConstraint const& constraint )
+{
+    std::stringstream result;
+    result << "C(min: " << constraint.min_val() << ", max: " << constraint.max_val() << ", f: " << constraint.factor() << ")";
+    return result.str();
+}
+
+std::string to_string( util::SizeHint const& size_hint )
+{
+    std::stringstream result;
+    result << "Hwidth: " << to_string(size_hint.width()) << ", Hheight:" << to_string(size_hint.height());
+    return result.str();
+}
+
+std::string to_string( border::Buffer & buffer )
+{
+    char char_map[16] = {
+        ' ',//NONE         = 0b00000,
+        '0',//UNUSED_1     = 0b00001,
+        '0',//UNUSED_2     = 0b00010,
+        '7',//BOTTOM_LEFT  = 0b00011,
+        '0',//UNUSED_4     = 0b00100,
+        '|',//VERTICAL     = 0b00101,
+        '1',//TOP_LEFT     = 0b00110,
+        '8',//TEE_RIGHT    = 0b00111,
+        '0',//UNUSED_8     = 0b01000,
+        '5',//BOTTOM_RIGHT = 0b01001,
+        '-',//HORIZONTAL   = 0b01010,
+        '6',//TEE_TOP      = 0b01011,
+        '3',//TOP_RIGHT    = 0b01100,
+        '4',//TEE_LEFT     = 0b01101,
+        '2',//TEE_BOTTOM   = 0b01110,
+        '+' //CROSS        = 0b01111,
+    };
+    std::stringstream borders;
+    util::Point pos;
+    border::Element *element;
+
+    while( element = buffer.get( pos ) )
+    {
+        while( element = buffer.get( pos ) )
+        {
+            borders << element->to_char(char_map);
+            pos.right();
+        }
+        borders << "\n";
+        pos.break_line();
+    }
+
+    return borders.str();
+}
+
 
 //----------------------------------------------------------------------------//
 
@@ -207,6 +259,7 @@ void TestTerminal::printBorder(unsigned int lineNumber,
                  unsigned int width,
                  bool inverted)
 {}
+
 
 
 }
