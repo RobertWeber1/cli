@@ -150,7 +150,7 @@ std::string to_string( util::Size const& size )
 std::string to_string( util::Properties const& prop )
 {
     std::stringstream result;
-    result << "Prop(fg: " << prop.foreground() << ", bg: " << prop.background() << ", attr: " << prop.attribute() << ")";
+    result << "Prop(fg: " << prop.foreground << ", bg: " << prop.background << ", attr: " << prop.attribute << ")";
     return result.str();
 }
 
@@ -191,6 +191,24 @@ std::string to_string( border::Buffer & buffer )
         '2',//TEE_BOTTOM   = 0b01110,
         '+' //CROSS        = 0b01111,
     };
+    char inv_map[16] = {
+        ' ',//NONE         = 0b00000,
+        '0',//UNUSED_1     = 0b00001,
+        '0',//UNUSED_2     = 0b00010,
+        'G',//BOTTOM_LEFT  = 0b00011,
+        '0',//UNUSED_4     = 0b00100,
+        '#',//VERTICAL     = 0b00101,
+        'A',//TOP_LEFT     = 0b00110,
+        'H',//TEE_RIGHT    = 0b00111,
+        '0',//UNUSED_8     = 0b01000,
+        'E',//BOTTOM_RIGHT = 0b01001,
+        '=',//HORIZONTAL   = 0b01010,
+        'F',//TEE_TOP      = 0b01011,
+        'C',//TOP_RIGHT    = 0b01100,
+        'D',//TEE_LEFT     = 0b01101,
+        'B',//TEE_BOTTOM   = 0b01110,
+        '%' //CROSS        = 0b01111,
+    };
     std::stringstream borders;
     util::Point pos;
     border::Element *element;
@@ -199,7 +217,15 @@ std::string to_string( border::Buffer & buffer )
     {
         while( element = buffer.get( pos ) )
         {
-            borders << element->to_char(char_map);
+            //borders << element->to_char(char_map);
+            if(element->is_inverted())
+            {
+                borders << element->to_char(inv_map);
+            }
+            else
+            {
+                borders << element->to_char(char_map);
+            }
             pos.right();
         }
         borders << "\n";

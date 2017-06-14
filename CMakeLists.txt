@@ -17,14 +17,14 @@ include_directories(
     "src/"
 )
 
+## Compiler flags
+if(CMAKE_COMPILER_IS_GNUCXX)
+    set(CMAKE_CXX_FLAGS "-O0")        ## Optimize
+    #set(CMAKE_EXE_LINKER_FLAGS "-s")  ## Strip binary
+endif()
 
 add_library(cli
-	#src/util.cc
-	#src/line.cc
-	#src/data.cc
-	#src/window.cc
-	#src/layoutobject.cc
-	src/util/properties.cc
+	#src/util/properties.cc
 	src/util/point.cc
 	src/util/size.cc
 	src/util/size_constraint.cc
@@ -42,9 +42,7 @@ add_executable( runUnitTests_${SHORT_NAME}
 	tests/testUtils.cc
 	tests/unitTest_border.cc
 	tests/unitTest_layout.cc
-	#tests/unitTestLine.cc
-	#tests/unitTestData.cc
-	#tests/unitTestWindow.cc
+	tests/unitTest_TextWidget.cc
 	tests/unitTests.cc
 )
 
@@ -52,6 +50,7 @@ add_executable( runUnitTests_${SHORT_NAME}
 target_link_libraries( runUnitTests_${SHORT_NAME}
 	cli
 )
+
 
 enable_testing()
 

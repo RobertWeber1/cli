@@ -27,6 +27,7 @@ char char_map[16] = {
 	'+' //CROSS        = 0b01111,
 };
 
+
 void element_convertToVisibleChar(std::pair<unsigned int, unsigned int> & result)
 {
 	Element none(Element::NONE);
@@ -178,6 +179,7 @@ void buffer_renderUnusedBuffer_resultIsBlank(std::pair<unsigned int, unsigned in
 	check(__FUNCTION__, borders.str(), std::string("0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n0000000000\n"), result);
 }
 
+
 void buffer_render4x4BorderAt1x2(std::pair<unsigned int, unsigned int> & result)
 {
 	Buffer buffer( Size(10, 10) );
@@ -185,39 +187,8 @@ void buffer_render4x4BorderAt1x2(std::pair<unsigned int, unsigned int> & result)
 	Point p1 ( 1, 2 );
 
 	buffer.draw( p1, size );
-	char char_map[16] = {
-		' ',//NONE         = 0b00000,
-		'0',//UNUSED_1     = 0b00001,
-		'0',//UNUSED_2     = 0b00010,
-		'7',//BOTTOM_LEFT  = 0b00011,
-		'0',//UNUSED_4     = 0b00100,
-		'|',//VERTICAL     = 0b00101,
-		'1',//TOP_LEFT     = 0b00110,
-		'8',//TEE_RIGHT    = 0b00111,
-		'0',//UNUSED_8     = 0b01000,
-		'5',//BOTTOM_RIGHT = 0b01001,
-		'-',//HORIZONTAL   = 0b01010,
-		'6',//TEE_TOP      = 0b01011,
-		'3',//TOP_RIGHT    = 0b01100,
-		'4',//TEE_LEFT     = 0b01101,
-		'2',//TEE_BOTTOM   = 0b01110,
-		'+' //CROSS        = 0b01111,
-	};
-	std::stringstream borders;
-	Point pos;
-	Element *element;
-	while( element = buffer.get( pos ) )
-	{
-		while( element = buffer.get( pos ) )
-		{
-			borders << element->to_char(char_map);
-			pos.right();
-		}
-		borders << "\n";
-		pos.break_line();
-	}
 
-	check(__FUNCTION__, borders.str(), std::string(
+	check(__FUNCTION__, to_string(buffer), std::string(
 "          \n\
           \n\
  1--3     \n\
@@ -245,40 +216,7 @@ void buffer_render4OverlappingBorders(std::pair<unsigned int, unsigned int> & re
 	buffer.draw( p3, size );
 	buffer.draw( p4, size );
 
-
-	char char_map[16] = {
-		' ',//NONE         = 0b00000,
-		'0',//UNUSED_1     = 0b00001,
-		'0',//UNUSED_2     = 0b00010,
-		'7',//BOTTOM_LEFT  = 0b00011,
-		'0',//UNUSED_4     = 0b00100,
-		'|',//VERTICAL     = 0b00101,
-		'1',//TOP_LEFT     = 0b00110,
-		'8',//TEE_RIGHT    = 0b00111,
-		'0',//UNUSED_8     = 0b01000,
-		'5',//BOTTOM_RIGHT = 0b01001,
-		'-',//HORIZONTAL   = 0b01010,
-		'6',//TEE_TOP      = 0b01011,
-		'3',//TOP_RIGHT    = 0b01100,
-		'4',//TEE_LEFT     = 0b01101,
-		'2',//TEE_BOTTOM   = 0b01110,
-		'+' //CROSS        = 0b01111,
-	};
-	std::stringstream borders;
-	Point pos;
-	Element *element;
-	while( element = buffer.get( pos ) )
-	{
-		while( element = buffer.get( pos ) )
-		{
-			borders << element->to_char(char_map);
-			pos.right();
-		}
-		borders << "\n";
-		pos.break_line();
-	}
-
-	check(__FUNCTION__, borders.str(), std::string(
+	check(__FUNCTION__, to_string(buffer), std::string(
 "          \n\
           \n\
  1--2--3  \n\
@@ -300,7 +238,6 @@ void buffer_render4OverlappingBordersRemoveOne(std::pair<unsigned int, unsigned 
 	Point p2 ( 4, 2 );
 	Point p3 ( 1, 5 );
 	Point p4 ( 4, 5 );
-
 	buffer.draw( p1, size );
 	buffer.draw( p2, size );
 	buffer.draw( p3, size );
@@ -308,39 +245,7 @@ void buffer_render4OverlappingBordersRemoveOne(std::pair<unsigned int, unsigned 
 
 	buffer.draw( p4, size, Buffer::Remove );
 
-	char char_map[16] = {
-		' ',//NONE         = 0b00000,
-		'0',//UNUSED_1     = 0b00001,
-		'0',//UNUSED_2     = 0b00010,
-		'7',//BOTTOM_LEFT  = 0b00011,
-		'0',//UNUSED_4     = 0b00100,
-		'|',//VERTICAL     = 0b00101,
-		'1',//TOP_LEFT     = 0b00110,
-		'8',//TEE_RIGHT    = 0b00111,
-		'0',//UNUSED_8     = 0b01000,
-		'5',//BOTTOM_RIGHT = 0b01001,
-		'-',//HORIZONTAL   = 0b01010,
-		'6',//TEE_TOP      = 0b01011,
-		'3',//TOP_RIGHT    = 0b01100,
-		'4',//TEE_LEFT     = 0b01101,
-		'2',//TEE_BOTTOM   = 0b01110,
-		'+' //CROSS        = 0b01111,
-	};
-	std::stringstream borders;
-	Point pos;
-	Element *element;
-	while( element = buffer.get( pos ) )
-	{
-		while( element = buffer.get( pos ) )
-		{
-			borders << element->to_char(char_map);
-			pos.right();
-		}
-		borders << "\n";
-		pos.break_line();
-	}
-
-	check(__FUNCTION__, borders.str(), std::string(
+	check(__FUNCTION__, to_string(buffer), std::string(
 "          \n\
           \n\
  1--2--3  \n\
@@ -362,7 +267,6 @@ void buffer_render4OverlappingBordersRemoveTwo(std::pair<unsigned int, unsigned 
 	Point p2 ( 4, 2 );
 	Point p3 ( 1, 5 );
 	Point p4 ( 4, 5 );
-
 	buffer.draw( p1, size );
 	buffer.draw( p2, size );
 	buffer.draw( p3, size );
@@ -371,39 +275,7 @@ void buffer_render4OverlappingBordersRemoveTwo(std::pair<unsigned int, unsigned 
 	buffer.draw( p3, size, Buffer::Remove );
 	buffer.draw( p4, size, Buffer::Remove );
 
-	char char_map[16] = {
-		' ',//NONE         = 0b00000,
-		'0',//UNUSED_1     = 0b00001,
-		'0',//UNUSED_2     = 0b00010,
-		'7',//BOTTOM_LEFT  = 0b00011,
-		'0',//UNUSED_4     = 0b00100,
-		'|',//VERTICAL     = 0b00101,
-		'1',//TOP_LEFT     = 0b00110,
-		'8',//TEE_RIGHT    = 0b00111,
-		'0',//UNUSED_8     = 0b01000,
-		'5',//BOTTOM_RIGHT = 0b01001,
-		'-',//HORIZONTAL   = 0b01010,
-		'6',//TEE_TOP      = 0b01011,
-		'3',//TOP_RIGHT    = 0b01100,
-		'4',//TEE_LEFT     = 0b01101,
-		'2',//TEE_BOTTOM   = 0b01110,
-		'+' //CROSS        = 0b01111,
-	};
-	std::stringstream borders;
-	Point pos;
-	Element *element;
-	while( element = buffer.get( pos ) )
-	{
-		while( element = buffer.get( pos ) )
-		{
-			borders << element->to_char(char_map);
-			pos.right();
-		}
-		borders << "\n";
-		pos.break_line();
-	}
-
-	check(__FUNCTION__, borders.str(), std::string(
+	check(__FUNCTION__, to_string(buffer), std::string(
 "          \n\
           \n\
  1--2--3  \n\
@@ -431,67 +303,7 @@ void buffer_render4OverlappingBordersTowAreInverted(std::pair<unsigned int, unsi
 	buffer.draw( p3, size );
 	buffer.draw( p4, size, Buffer::Add, Buffer::DrawInverted );
 
-
-	char char_map[16] = {
-		' ',//NONE         = 0b00000,
-		'0',//UNUSED_1     = 0b00001,
-		'0',//UNUSED_2     = 0b00010,
-		'7',//BOTTOM_LEFT  = 0b00011,
-		'0',//UNUSED_4     = 0b00100,
-		'|',//VERTICAL     = 0b00101,
-		'1',//TOP_LEFT     = 0b00110,
-		'8',//TEE_RIGHT    = 0b00111,
-		'0',//UNUSED_8     = 0b01000,
-		'5',//BOTTOM_RIGHT = 0b01001,
-		'-',//HORIZONTAL   = 0b01010,
-		'6',//TEE_TOP      = 0b01011,
-		'3',//TOP_RIGHT    = 0b01100,
-		'4',//TEE_LEFT     = 0b01101,
-		'2',//TEE_BOTTOM   = 0b01110,
-		'+' //CROSS        = 0b01111,
-	};
-
-	char inv_map[16] = {
-		' ',//NONE         = 0b00000,
-		'0',//UNUSED_1     = 0b00001,
-		'0',//UNUSED_2     = 0b00010,
-		'G',//BOTTOM_LEFT  = 0b00011,
-		'0',//UNUSED_4     = 0b00100,
-		'#',//VERTICAL     = 0b00101,
-		'A',//TOP_LEFT     = 0b00110,
-		'H',//TEE_RIGHT    = 0b00111,
-		'0',//UNUSED_8     = 0b01000,
-		'E',//BOTTOM_RIGHT = 0b01001,
-		'=',//HORIZONTAL   = 0b01010,
-		'F',//TEE_TOP      = 0b01011,
-		'C',//TOP_RIGHT    = 0b01100,
-		'D',//TEE_LEFT     = 0b01101,
-		'B',//TEE_BOTTOM   = 0b01110,
-		'%' //CROSS        = 0b01111,
-	};
-
-	std::stringstream borders;
-	Point pos;
-	Element *element;
-	while( element = buffer.get( pos ) )
-	{
-		while( element = buffer.get( pos ) )
-		{
-			if(element->is_inverted())
-			{
-				borders << element->to_char(inv_map);
-			}
-			else
-			{
-				borders << element->to_char(char_map);
-			}
-			pos.right();
-		}
-		borders << "\n";
-		pos.break_line();
-	}
-
-	check(__FUNCTION__, borders.str(), std::string(
+	check(__FUNCTION__, to_string(buffer), std::string(
 "          \n\
           \n\
  A==B--3  \n\
@@ -513,7 +325,6 @@ void buffer_render4OverlappingBordersTowAreInvertedRemoveOneInverted(std::pair<u
 	Point p2 ( 4, 2 );
 	Point p3 ( 1, 5 );
 	Point p4 ( 4, 5 );
-
 	buffer.draw( p1, size, Buffer::Add, Buffer::DrawInverted );
 	buffer.draw( p2, size );
 	buffer.draw( p3, size );
@@ -521,66 +332,7 @@ void buffer_render4OverlappingBordersTowAreInvertedRemoveOneInverted(std::pair<u
 
 	buffer.draw( p1, size, Buffer::Remove, Buffer::DrawInverted );
 
-	char char_map[16] = {
-		' ',//NONE         = 0b00000,
-		'0',//UNUSED_1     = 0b00001,
-		'0',//UNUSED_2     = 0b00010,
-		'7',//BOTTOM_LEFT  = 0b00011,
-		'0',//UNUSED_4     = 0b00100,
-		'|',//VERTICAL     = 0b00101,
-		'1',//TOP_LEFT     = 0b00110,
-		'8',//TEE_RIGHT    = 0b00111,
-		'0',//UNUSED_8     = 0b01000,
-		'5',//BOTTOM_RIGHT = 0b01001,
-		'-',//HORIZONTAL   = 0b01010,
-		'6',//TEE_TOP      = 0b01011,
-		'3',//TOP_RIGHT    = 0b01100,
-		'4',//TEE_LEFT     = 0b01101,
-		'2',//TEE_BOTTOM   = 0b01110,
-		'+' //CROSS        = 0b01111,
-	};
-
-	char inv_map[16] = {
-		' ',//NONE         = 0b00000,
-		'0',//UNUSED_1     = 0b00001,
-		'0',//UNUSED_2     = 0b00010,
-		'G',//BOTTOM_LEFT  = 0b00011,
-		'0',//UNUSED_4     = 0b00100,
-		'#',//VERTICAL     = 0b00101,
-		'A',//TOP_LEFT     = 0b00110,
-		'H',//TEE_RIGHT    = 0b00111,
-		'0',//UNUSED_8     = 0b01000,
-		'E',//BOTTOM_RIGHT = 0b01001,
-		'=',//HORIZONTAL   = 0b01010,
-		'F',//TEE_TOP      = 0b01011,
-		'C',//TOP_RIGHT    = 0b01100,
-		'D',//TEE_LEFT     = 0b01101,
-		'B',//TEE_BOTTOM   = 0b01110,
-		'%' //CROSS        = 0b01111,
-	};
-
-	std::stringstream borders;
-	Point pos;
-	Element *element;
-	while( element = buffer.get( pos ) )
-	{
-		while( element = buffer.get( pos ) )
-		{
-			if(element->is_inverted())
-			{
-				borders << element->to_char(inv_map);
-			}
-			else
-			{
-				borders << element->to_char(char_map);
-			}
-			pos.right();
-		}
-		borders << "\n";
-		pos.break_line();
-	}
-
-	check(__FUNCTION__, borders.str(), std::string(
+	check(__FUNCTION__, to_string(buffer), std::string(
 "          \n\
           \n\
     1--3  \n\
@@ -602,7 +354,6 @@ void buffer_render4OverlappingBordersTowAreInvertedRemoveTwoInverted(std::pair<u
 	Point p2 ( 4, 2 );
 	Point p3 ( 1, 5 );
 	Point p4 ( 4, 5 );
-
 	buffer.draw( p1, size, Buffer::Add, Buffer::DrawInverted );
 	buffer.draw( p2, size );
 	buffer.draw( p3, size );
@@ -611,66 +362,7 @@ void buffer_render4OverlappingBordersTowAreInvertedRemoveTwoInverted(std::pair<u
 	buffer.draw( p1, size, Buffer::Remove, Buffer::DrawInverted );
 	buffer.draw( p4, size, Buffer::Remove, Buffer::DrawInverted );
 
-	char char_map[16] = {
-		' ',//NONE         = 0b00000,
-		'0',//UNUSED_1     = 0b00001,
-		'0',//UNUSED_2     = 0b00010,
-		'7',//BOTTOM_LEFT  = 0b00011,
-		'0',//UNUSED_4     = 0b00100,
-		'|',//VERTICAL     = 0b00101,
-		'1',//TOP_LEFT     = 0b00110,
-		'8',//TEE_RIGHT    = 0b00111,
-		'0',//UNUSED_8     = 0b01000,
-		'5',//BOTTOM_RIGHT = 0b01001,
-		'-',//HORIZONTAL   = 0b01010,
-		'6',//TEE_TOP      = 0b01011,
-		'3',//TOP_RIGHT    = 0b01100,
-		'4',//TEE_LEFT     = 0b01101,
-		'2',//TEE_BOTTOM   = 0b01110,
-		'+' //CROSS        = 0b01111,
-	};
-
-	char inv_map[16] = {
-		' ',//NONE         = 0b00000,
-		'0',//UNUSED_1     = 0b00001,
-		'0',//UNUSED_2     = 0b00010,
-		'G',//BOTTOM_LEFT  = 0b00011,
-		'0',//UNUSED_4     = 0b00100,
-		'#',//VERTICAL     = 0b00101,
-		'A',//TOP_LEFT     = 0b00110,
-		'H',//TEE_RIGHT    = 0b00111,
-		'0',//UNUSED_8     = 0b01000,
-		'E',//BOTTOM_RIGHT = 0b01001,
-		'=',//HORIZONTAL   = 0b01010,
-		'F',//TEE_TOP      = 0b01011,
-		'C',//TOP_RIGHT    = 0b01100,
-		'D',//TEE_LEFT     = 0b01101,
-		'B',//TEE_BOTTOM   = 0b01110,
-		'%' //CROSS        = 0b01111,
-	};
-
-	std::stringstream borders;
-	Point pos;
-	Element *element;
-	while( element = buffer.get( pos ) )
-	{
-		while( element = buffer.get( pos ) )
-		{
-			if(element->is_inverted())
-			{
-				borders << element->to_char(inv_map);
-			}
-			else
-			{
-				borders << element->to_char(char_map);
-			}
-			pos.right();
-		}
-		borders << "\n";
-		pos.break_line();
-	}
-
-	check(__FUNCTION__, borders.str(), std::string(
+	check(__FUNCTION__, to_string(buffer), std::string(
 "          \n\
           \n\
     1--3  \n\
@@ -682,7 +374,6 @@ void buffer_render4OverlappingBordersTowAreInvertedRemoveTwoInverted(std::pair<u
  7--5     \n\
           \n"), result);
 }
-
 
 
 //----------------------------------------------------------------------------//

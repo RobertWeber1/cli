@@ -13,6 +13,7 @@
 namespace CLI
 {
 
+
 template<typename T>
 void check( const std::string & func,
             const T & a,
@@ -31,7 +32,6 @@ void check( const std::string & func,
 }
 
 std::ostream & operator<<( std::ostream & os, border::Element::Type type );
-
 std::ostream & operator<<( std::ostream & os, util::Properties::Color color );
 std::ostream & operator<<( std::ostream & os, util::Properties::Attribute attr );
 
