@@ -1,57 +1,63 @@
 cmake_minimum_required (VERSION 2.6)
-project (CommandLineInterfce)
+project (libcli CXX)
 
-set (VERSION_MAJOR 0)
-set (VERSION_MINOR 1)
-set (VERSION_PATCH 0)
-set (SHORT_NAME "CLI")
+################################################################################
+# Version-file #
+################
 
-configure_file (
-    "${PROJECT_SOURCE_DIR}/version.h.in"
-    "${PROJECT_BINARY_DIR}/version.h"
+set(${PROJECT_NAME}_VERSION_SRC "${CMAKE_CURRENT_BINARY_DIR}/version.cc")
+set(${PROJECT_NAME}_NAMESPACE "cli")
+
+add_custom_command(
+	OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/version.cc
+	OUTPUT __version_${PROJECT_NAME}
+	COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/tool/version_writer.sh ${CMAKE_CURRENT_SOURCE_DIR} ${${PROJECT_NAME}_NAMESPACE} ${PROJECT_NAME} > ${CMAKE_CURRENT_BINARY_DIR}/version.cc
 )
 
-include_directories(
-    "${PROJECT_BINARY_DIR}"
-    "./include/"
-    "src/"
+add_custom_target(${PROJECT_NAME}_version
+	ALL
+	DEPENDS __version_${PROJECT_NAME}
 )
 
-## Compiler flags
-if(CMAKE_COMPILER_IS_GNUCXX)
-    set(CMAKE_CXX_FLAGS "-O0")        ## Optimize
-    #set(CMAKE_EXE_LINKER_FLAGS "-s")  ## Strip binary
-endif()
+set_source_files_properties(${CMAKE_CURRENT_BINARY_DIR}/version.cc PROPERTIES GENERATED TRUE)
 
-add_library(cli
-	#src/util/properties.cc
-	src/util/point.cc
-	src/util/size.cc
-	src/util/size_constraint.cc
-	src/util/size_hint.cc
-	src/border/element.cc
-	src/border/buffer.cc
-	src/layout/layout.cc
-	src/layout/layout_object.cc
-	src/layout/vertical_layout.cc
-	src/layout/horizontal_layout.cc
+
+################################################################################
+# Library #
+###########
+
+add_library( ${PROJECT_NAME}
+	${${PROJECT_NAME}_VERSION_SRC}
+)
+
+target_include_directories( ${PROJECT_NAME}
+	PUBLIC src/
 )
 
 
-add_executable( runUnitTests_${SHORT_NAME}
-	tests/testUtils.cc
-	tests/unitTest_border.cc
-	tests/unitTest_layout.cc
-	tests/unitTest_TextWidget.cc
-	tests/unitTests.cc
+################################################################################
+# Unit test #
+#############
+
+add_executable( ${PROJECT_NAME}-test EXCLUDE_FROM_ALL
+    test/catch.cc
+    test/version.cc
+    test/output_stream.cc
+    test/serialize.cc
+    test/parameter_sequence.cc
+    test/vt102.cc
 )
 
-
-target_link_libraries( runUnitTests_${SHORT_NAME}
-	cli
+target_include_directories( ${PROJECT_NAME}-test
+	PRIVATE test/
 )
 
+target_link_libraries( ${PROJECT_NAME}-test
+	${PROJECT_NAME}
+)
 
-enable_testing()
-
-add_test( unit_tests_${SHORT_NAME} runUnitTests_${SHORT_NAME} 0 )
+target_compile_options( ${PROJECT_NAME}-test
+	PRIVATE "-Wall"
+	PRIVATE "-Werror"
+	PRIVATE "-std=c++14"
+)

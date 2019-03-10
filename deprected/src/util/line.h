@@ -1,6 +1,7 @@
 #pragma once
 #include "properties.h"
 #include "alignment.h"
+#include <string>
 
 namespace CLI
 {

@@ -30,7 +30,7 @@ public:
 
 		unsigned int index;
 		util::Line const& line;
-	}_Line;
+	}ChangedLine;
 
 	void add( unsigned int index, util::Line const& line );
 	void reomve_line( unsigned int index );

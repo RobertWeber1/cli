@@ -1,5 +1,6 @@
 #pragma once
 
+
 namespace CLI
 {
 
@@ -7,11 +8,16 @@ namespace util
 {
 
 
-typedef enum Alignment{
-    LEFT = 0,
-    CENTER,
-    RIGHT
-}Alignment;
+enum Attribute
+{
+	NONE = 1,
+	BOLD,
+	DIM,
+	UNDERSCORE,
+	BLINK,
+	INVERSE,
+	HIDDEN
+};
 
 
 } //namespace util

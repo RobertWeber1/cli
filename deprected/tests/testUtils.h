@@ -32,8 +32,8 @@ void check( const std::string & func,
 }
 
 std::ostream & operator<<( std::ostream & os, border::Element::Type type );
-std::ostream & operator<<( std::ostream & os, util::Properties::Color color );
-std::ostream & operator<<( std::ostream & os, util::Properties::Attribute attr );
+std::ostream & operator<<( std::ostream & os, util::Color color );
+std::ostream & operator<<( std::ostream & os, util::Attribute attr );
 
 std::string to_string( util::Point const& point );
 std::string to_string( util::Size const& size );

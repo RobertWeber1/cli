@@ -66,32 +66,32 @@ std::ostream & operator<<( std::ostream & os, border::Element::Type type )
 }
 
 
-std::ostream & operator<<( std::ostream & os, util::Properties::Color color )
+std::ostream & operator<<( std::ostream & os, util::Color color )
 {
     switch(color)
     {
-    case util::Properties::BLACK:
+    case util::BLACK:
         return os << "BLACK";
 
-    case util::Properties::WHITE:
+    case util::WHITE:
         return os << "WHITE";
 
-    case util::Properties::RED:
+    case util::RED:
         return os << "RED";
 
-    case util::Properties::GREEN:
+    case util::GREEN:
         return os << "GREEN";
 
-    case util::Properties::BLUE:
+    case util::BLUE:
         return os << "BLUE";
 
-    case util::Properties::YELLOW:
+    case util::YELLOW:
         return os << "YELLOW";
 
-    case util::Properties::CYAN:
+    case util::CYAN:
         return os << "CYAN";
 
-    case util::Properties::MAGENTA:
+    case util::MAGENTA:
         return os << "MAGENTA";
 
     default:
@@ -100,29 +100,29 @@ std::ostream & operator<<( std::ostream & os, util::Properties::Color color )
 }
 
 
-std::ostream & operator<<( std::ostream & os, util::Properties::Attribute attr )
+std::ostream & operator<<( std::ostream & os, util::Attribute attr )
 {
     switch(attr)
     {
-    case util::Properties::NONE:
+    case util::NONE:
         return os << "NONE";
 
-    case util::Properties::BOLD:
+    case util::BOLD:
         return os << "BOLD";
 
-    case util::Properties::DIM:
+    case util::DIM:
         return os << "DIM";
 
-    case util::Properties::UNDERSCORE:
+    case util::UNDERSCORE:
         return os << "UNDERSCORE";
 
-    case util::Properties::BLINK:
+    case util::BLINK:
         return os << "BLINK";
 
-    case util::Properties::INVERSE:
+    case util::INVERSE:
         return os << "INVERSE";
 
-    case util::Properties::HIDDEN:
+    case util::HIDDEN:
         return os << "HIDDEN";
 
     default:
