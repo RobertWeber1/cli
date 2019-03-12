@@ -1,5 +1,6 @@
 #pragma once
 #include <cli/char_sequence.h>
+#include <cli/parameter_sequence.h>
 #include <algorithm>
 #include <stdint.h>
 
@@ -7,11 +8,11 @@ namespace cli
 {
 
 
-
-
+// template<size_t COLs, size_t ROWs>
 struct VT102
 {
 	static constexpr char Esc = '\033';
+	using pss = CharSequence<Esc, '['>;
 
 	using QueryDeviceCode     = CharSequence<Esc, '[', 'c'>;
 	using QueryDeviceStatus   = CharSequence<Esc, '[', '5', 'n'>;
@@ -24,15 +25,12 @@ struct VT102
 	using SetFontG0           = CharSequence<Esc, '('>;
 	using SetFontG1           = CharSequence<Esc, ')'>;
 
-	// using HomeCursor          =
+	using HomeCursor          = ParameterSequence<'H', pss, int, int>;
 	using SaveCursorPosition  = CharSequence<Esc, '[', 's'>;
 	using ResoreCursorPosition  = CharSequence<Esc, '[', 'u'>;
 
 	using SaveCursorPositionAttr  = CharSequence<Esc, '7'>;
 	using ResoreCursorPositionAttr  = CharSequence<Esc, '8'>;
-
-
-
 };
 
 

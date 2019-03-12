@@ -1,3 +1,4 @@
+#pragma once
 #include <cli/char_sequence.h>
 #include <utility>
 
@@ -40,8 +41,8 @@ void size_helper(size_t & result, std::tuple<ARGS...> const& tup, std::index_seq
 {
 	result += sizeof...(ARGS) - 1;
 
-	using swallow = int[];
-    (void)swallow{1, (get_size(result, std::get<Is>(tup)), void(), int{})... };
+	using dummy_ = int[];
+	(void)dummy_{1, (get_size(result, std::get<Is>(tup)), void(), int{})... };
 }
 
 

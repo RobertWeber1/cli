@@ -43,7 +43,7 @@ add_executable( ${PROJECT_NAME}-test EXCLUDE_FROM_ALL
     test/catch.cc
     test/version.cc
     test/output_stream.cc
-    test/serialize.cc
+    test/serialise.cc
     test/parameter_sequence.cc
     test/vt102.cc
 )

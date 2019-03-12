@@ -1,5 +1,5 @@
 #include <cli/vt102.h>
-#include <cli/serialize.h>
+#include <cli/serialise.h>
 #include "catch.h"
 #include "util.h"
 
