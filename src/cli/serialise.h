@@ -1,4 +1,5 @@
 #pragma once
+#include <cli/delimiter.h>
 #include <cli/output_stream.h>
 #include <cli/char_sequence.h>
 #include <cli/parameter_sequence.h>
@@ -68,18 +69,15 @@ OutputStream<T> & operator<<(OutputStream<T> & stream, char const(& val)[N])
 }
 
 
-template<size_t I>
-struct Semicolon{};
-
 
 template<class T>
-OutputStream<T> & operator<<(OutputStream<T> & stream, Semicolon<0>)
+OutputStream<T> & operator<<(OutputStream<T> & stream, Delimiter<0>)
 {
 	return stream;
 }
 
 template<class T, size_t N>
-OutputStream<T> & operator<<(OutputStream<T> & stream, Semicolon<N>)
+OutputStream<T> & operator<<(OutputStream<T> & stream, Delimiter<N>)
 {
 	*stream.head++ = ';';
 	return stream;
@@ -90,7 +88,7 @@ template<class T, class ... ARGS, size_t ... Is>
 void encode_helper(OutputStream<T> & stream, std::tuple<ARGS...> const& tup, std::index_sequence<Is...>)
 {
 	using dummy_ = int[];
-	(void)dummy_{1, ((stream << Semicolon<Is>{} << std::get<Is>(tup)), void(), int{})... };
+	(void)dummy_{1, ((stream << Delimiter<Is>{} << std::get<Is>(tup)), void(), int{})... };
 }
 
 
