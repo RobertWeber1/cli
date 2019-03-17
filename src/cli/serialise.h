@@ -3,6 +3,8 @@
 #include <cli/output_stream.h>
 #include <cli/char_sequence.h>
 #include <cli/parameter_sequence.h>
+#include <cli/types.h>
+#include <type_traits>
 
 namespace cli
 {
@@ -16,6 +18,9 @@ OutputStream<T> & operator<<(OutputStream<T> & stream, Flush)
 }
 
 
+//----------------------------------------------------------------------------//
+
+
 template<class T, char ... ARGS>
 OutputStream<T> & operator<<(
 	OutputStream<T> & stream,
@@ -25,6 +30,9 @@ OutputStream<T> & operator<<(
 	stream.head = std::copy(Val::buffer, Val::buffer+Val::size(), stream.head);
 	return stream;
 }
+
+
+//----------------------------------------------------------------------------//
 
 
 template<class T>
@@ -49,6 +57,17 @@ OutputStream<T> & operator<<(OutputStream<T> & stream, unsigned int val)
 }
 
 
+template<class T, class ENUM>
+typename std::enable_if<std::is_enum<ENUM>::value, OutputStream<T>&>::type
+	operator<<(OutputStream<T> & stream, ENUM val)
+{
+	return stream << static_cast<unsigned int>(val);
+}
+
+
+//----------------------------------------------------------------------------//
+
+
 template<class T>
 OutputStream<T> & operator<<(OutputStream<T> & stream, std::string const& val)
 {
@@ -57,6 +76,9 @@ OutputStream<T> & operator<<(OutputStream<T> & stream, std::string const& val)
 	*stream.head++ = '\"';
 	return stream;
 }
+
+
+//----------------------------------------------------------------------------//
 
 
 template<class T, size_t N>
@@ -69,6 +91,28 @@ OutputStream<T> & operator<<(OutputStream<T> & stream, char const(& val)[N])
 }
 
 
+//----------------------------------------------------------------------------//
+
+
+template<class T, class REP, class TAG, template<class> class ... SKILLS>
+OutputStream<T> & operator<<(
+	OutputStream<T> & stream,
+	Type<REP, TAG, SKILLS...> const& type)
+{
+	return stream << type.value;
+}
+
+
+template<class T, class REP, class TAG, class AFFINE_TO_TAG>
+OutputStream<T> & operator<<(
+	OutputStream<T> & stream,
+	AffineType<REP, TAG, AFFINE_TO_TAG> const& type)
+{
+	return stream << type.value;
+}
+
+
+//----------------------------------------------------------------------------//
 
 template<class T>
 OutputStream<T> & operator<<(OutputStream<T> & stream, Delimiter<0>)
@@ -82,6 +126,9 @@ OutputStream<T> & operator<<(OutputStream<T> & stream, Delimiter<N>)
 	*stream.head++ = ';';
 	return stream;
 }
+
+
+//----------------------------------------------------------------------------//
 
 
 template<class T, class ... ARGS, size_t ... Is>

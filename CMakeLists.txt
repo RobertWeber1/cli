@@ -42,6 +42,7 @@ target_include_directories( ${PROJECT_NAME}
 add_executable( ${PROJECT_NAME}-test EXCLUDE_FROM_ALL
     test/catch.cc
     test/version.cc
+    test/types.cc
     test/output_stream.cc
     test/serialise.cc
     test/parameter_sequence.cc

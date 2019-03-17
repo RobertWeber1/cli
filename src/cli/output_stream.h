@@ -2,8 +2,10 @@
 #include <stdint.h>
 #include <string>
 
+
 namespace cli
 {
+
 
 struct Flush{};
 
@@ -19,7 +21,6 @@ public:
 	uint8_t * head;
 	uint8_t const * const begin;
 	uint8_t const * const end;
-
 
 	uint32_t size() const
 	{
@@ -66,9 +67,9 @@ public:
 	{
 		return derived().flush();
 	}
+
 private:
 	friend DERIVED;
-
 
 	OutputStream(uint8_t * data, size_t size)
 	: head(data)

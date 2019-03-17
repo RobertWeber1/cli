@@ -1,158 +1,106 @@
 #pragma once
 #include <cli/char_sequence.h>
 #include <cli/parameter_sequence.h>
+#include <cli/types.h>
 #include <algorithm>
 #include <stdint.h>
+
 
 namespace cli
 {
 
 
-// template<size_t COLs, size_t ROWs>
+template<class COLL_TYPE = uint8_t, class ROW_TYPE = uint8_t>
 struct VT102
 {
+	enum class Attribute : uint8_t
+	{
+		Reset      = 0,
+		Bright     = 1,
+		Dim        = 2,
+		Underscore = 4,
+		Blink      = 5,
+		Reverse    = 7,
+		Hidden     = 8
+	};
+
+	enum class Foreground : uint8_t
+	{
+		Black   = 30,
+		Red     = 31,
+		Green   = 32,
+		Yellow  = 33,
+		Blue    = 34,
+		Magenta = 35,
+		Cyan    = 36,
+		White   = 37
+	};
+
+	enum class Background : uint8_t
+	{
+		Black   = 40,
+		Red     = 41,
+		Green   = 42,
+		Yellow  = 43,
+		Blue    = 44,
+		Magenta = 45,
+		Cyan    = 46,
+		White   = 47
+	};
+
+	using ColDistance_t = ColDistance<COLL_TYPE>;
+	using RowDistance_t = RowDistance<ROW_TYPE>;
+	using Col_t = Collumn<COLL_TYPE>;
+	using Row_t = Row<ROW_TYPE>;
+
 	static constexpr char Esc = '\033';
 	using pss = CharSequence<Esc, '['>;
 
-	using QueryDeviceCode     = CharSequence<Esc, '[', 'c'>;
-	using QueryDeviceStatus   = CharSequence<Esc, '[', '5', 'n'>;
-	using QueryCursorPosition = CharSequence<Esc, '[', '6', 'n'>;
+	using QueryDeviceCode          = CharSequence<Esc, '[', 'c'>;
+	using QueryDeviceStatus        = CharSequence<Esc, '[', '5', 'n'>;
+	using QueryCursorPosition      = CharSequence<Esc, '[', '6', 'n'>;
 
-	using Reset               = CharSequence<Esc, 'c'>;
-	using EnableLineWrap      = CharSequence<Esc, '[', '7', 'h'>;
-	using DisableLineWrap     = CharSequence<Esc, '[', '7', 'l'>;
+	using Reset                    = CharSequence<Esc, 'c'>;
+	using EnableLineWrap           = CharSequence<Esc, '[', '7', 'h'>;
+	using DisableLineWrap          = CharSequence<Esc, '[', '7', 'l'>;
 
-	using SetFontG0           = CharSequence<Esc, '('>;
-	using SetFontG1           = CharSequence<Esc, ')'>;
+	using SetFontG0                = CharSequence<Esc, '('>;
+	using SetFontG1                = CharSequence<Esc, ')'>;
 
-	using HomeCursor          = ParameterSequence<'H', pss, int, int>;
-	using SaveCursorPosition  = CharSequence<Esc, '[', 's'>;
-	using ResoreCursorPosition  = CharSequence<Esc, '[', 'u'>;
+	using HomeCursor               = ParameterSequence<'H', pss>;
+	using SetCursorPosition        = ParameterSequence<'H', pss, Row_t, Col_t>;
+	using ForceCursorPosition      = ParameterSequence<'f', pss, Row_t, Col_t>;
+	using CursorUp                 = ParameterSequence<'A', pss, RowDistance_t>;
+	using CursorDown               = ParameterSequence<'B', pss, RowDistance_t>;
+	using CursorForward            = ParameterSequence<'C', pss, ColDistance_t>;
+	using CursorBackward           = ParameterSequence<'D', pss, ColDistance_t>;
 
-	using SaveCursorPositionAttr  = CharSequence<Esc, '7'>;
-	using ResoreCursorPositionAttr  = CharSequence<Esc, '8'>;
+	using SaveCursorPosition       = CharSequence<Esc, '[', 's'>;
+	using ResoreCursorPosition     = CharSequence<Esc, '[', 'u'>;
+	using SaveCursorPositionAttr   = CharSequence<Esc, '7'>;
+	using ResoreCursorPositionAttr = CharSequence<Esc, '8'>;
+
+	using EnableScrolling          = CharSequence<Esc, '[', 'r'>;
+	using EnablePartialScrolling   = ParameterSequence<'r', pss, Col_t, Col_t>;
+	using ScrollDown               = CharSequence<Esc, 'D'>;
+	using ScrollUp                 = CharSequence<Esc, 'M'>;
+
+	using SetTab                   = CharSequence<Esc, 'H'>;
+	using ClearTab                 = CharSequence<Esc, '[', 'g'>;
+	using ClearAllTab              = CharSequence<Esc, '[', '3', 'g'>;
+
+	using EraseToEndOfLine         = CharSequence<Esc, '[', 'K'>;
+	using EraseToStartOfLine       = CharSequence<Esc, '[', '1', 'K'>;
+	using EraseLine                = CharSequence<Esc, '[', '2', 'K'>;
+	using EraseDown                = CharSequence<Esc, '[', 'J'>;
+	using EraseUp                  = CharSequence<Esc, '[', '1', 'J'>;
+	using EraseScreen              = CharSequence<Esc, '[', '2', 'J'>;
+
+	template<class ... ATTRIBUTES>
+	using SetAttribure             = ParameterSequence<'m', pss, ATTRIBUTES...>;
 };
 
 
-// Cursor Control
-
-// Cursor Home 		<ESC>[{ROW};{COLUMN}H
-
-//     Sets the cursor position where subsequent text will begin. If no row/column parameters are provided (ie. <ESC>[H), the cursor will move to the home position, at the upper left of the screen.
-
-// Cursor Up		<ESC>[{COUNT}A
-
-//     Moves the cursor up by COUNT rows; the default count is 1.
-
-// Cursor Down		<ESC>[{COUNT}B
-
-//     Moves the cursor down by COUNT rows; the default count is 1.
-
-// Cursor Forward		<ESC>[{COUNT}C
-
-//     Moves the cursor forward by COUNT columns; the default count is 1.
-
-// Cursor Backward		<ESC>[{COUNT}D
-
-//     Moves the cursor backward by COUNT columns; the default count is 1.
-
-// Force Cursor Position	<ESC>[{ROW};{COLUMN}f
-
-//     Identical to Cursor Home.
-
-
-// Scrolling
-
-// Scroll Screen		<ESC>[r
-
-//     Enable scrolling for entire display.
-
-// Scroll Screen		<ESC>[{start};{end}r
-
-//     Enable scrolling from row {start} to row {end}.
-
-// Scroll Down		<ESC>D
-
-//     Scroll display down one line.
-
-// Scroll Up		<ESC>M
-
-//     Scroll display up one line.
-
-// Tab Control
-
-// Set Tab 		<ESC>H
-
-//     Sets a tab at the current position.
-
-// Clear Tab 		<ESC>[g
-
-//     Clears tab at the current position.
-
-// Clear All Tabs 		<ESC>[3g
-
-//     Clears all tabs.
-
-// Erasing Text
-
-// Erase End of Line	<ESC>[K
-
-//     Erases from the current cursor position to the end of the current line.
-
-// Erase Start of Line	<ESC>[1K
-
-//     Erases from the current cursor position to the start of the current line.
-
-// Erase Line		<ESC>[2K
-
-//     Erases the entire current line.
-
-// Erase Down		<ESC>[J
-
-//     Erases the screen from the current line down to the bottom of the screen.
-
-// Erase Up		<ESC>[1J
-
-//     Erases the screen from the current line up to the top of the screen.
-
-// Erase Screen		<ESC>[2J
-
-//     Erases the screen with the background colour and moves the cursor to home.
-
-
-// Set Display Attributes
-
-// Set Attribute Mode	<ESC>[{attr1};...;{attrn}m
-
-//     Sets multiple display attribute settings. The following lists standard attributes:
-
-//     0	Reset all attributes
-//     1	Bright
-//     2	Dim
-//     4	Underscore
-//     5	Blink
-//     7	Reverse
-//     8	Hidden
-
-//     	Foreground Colours
-//     30	Black
-//     31	Red
-//     32	Green
-//     33	Yellow
-//     34	Blue
-//     35	Magenta
-//     36	Cyan
-//     37	White
-
-//     	Background Colours
-//     40	Black
-//     41	Red
-//     42	Green
-//     43	Yellow
-//     44	Blue
-//     45	Magenta
-//     46	Cyan
-//     47	White
 
 
 // Report Device Code	<ESC>[{code}0c

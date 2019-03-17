@@ -5,6 +5,7 @@
 #include <string>
 #include <tuple>
 
+
 namespace cli
 {
 
@@ -23,7 +24,6 @@ struct CharSequence
 
 template<char ... ARGS>
 const uint8_t CharSequence<ARGS...>::buffer[sizeof...(ARGS)] = {ARGS...};
-
 
 
 } //namespace cli
