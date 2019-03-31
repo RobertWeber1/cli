@@ -30,6 +30,30 @@ struct EqualComparable
 };
 
 
+template<class T>
+struct Orderable
+{
+	bool operator<(T const& other) const
+	{
+		return static_cast<T const&>(*this).value < other.value;
+	}
+
+	bool operator<=(T const& other) const
+	{
+		return static_cast<T const&>(*this).value <= other.value;
+	}
+
+	bool operator>(T const& other) const
+	{
+		return static_cast<T const&>(*this).value > other.value;
+	}
+
+	bool operator>=(T const& other) const
+	{
+		return static_cast<T const&>(*this).value >= other.value;
+	}
+};
+
 
 template<class REP, class TAG, template<class> class ... SKILLS>
 struct Type : SKILLS<Type<REP, TAG, SKILLS ...>> ...
@@ -43,7 +67,7 @@ struct Type : SKILLS<Type<REP, TAG, SKILLS ...>> ...
 
 
 template<class REP, class TAG>
-using SkilledType = Type<REP, TAG, Assignable, EqualComparable>;
+using SkilledType = Type<REP, TAG, Assignable, EqualComparable, Orderable>;
 
 
 template<class REP, class TAG, class AFFINE_TO_TAG>
