@@ -46,6 +46,9 @@ add_executable( ${PROJECT_NAME}-test EXCLUDE_FROM_ALL
     test/output_stream.cc
     test/serialise.cc
     test/parameter_sequence.cc
+    test/layout/size_hint.cc
+    test/layout/object.cc
+    test/layout/horizontal.cc
     test/vt102.cc
 )
 
