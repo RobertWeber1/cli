@@ -141,7 +141,7 @@ template<class REP>
 using ColDistance = SkilledType<REP, struct CollumnTag>;
 
 template<class REP>
-using RowDistance = SkilledType<REP, struct CollumnTag>;
+using RowDistance = SkilledType<REP, struct RowTag>;
 
 
 template<class REP>
