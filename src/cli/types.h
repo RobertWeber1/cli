@@ -175,5 +175,10 @@ template<class REP>
 using Row = AffineType<REP, struct RowDistTag, struct RowTag>;
 
 
+using Width  = ColDistance<int>;
+using Height = RowDistance<int>;
+using X      = Collumn<int>;
+using Y      = Row<int>;
+
 
 } //namespace cli
